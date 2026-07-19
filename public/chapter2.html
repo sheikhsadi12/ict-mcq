@@ -171,13 +171,27 @@
     <div class="progress-container"><div class="progress-bar" id="barFill"></div></div>
 
     <nav>
-        <div class="nav-brand">ICT • Mutu</div>
+        <a href="/" class="icon-btn" title="Back to Home" style="text-decoration: none; margin-right: 12px; flex-shrink: 0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </a>
+        <div class="nav-brand" style="flex-grow: 1;">ICT • Mutu</div>
         <div class="nav-actions">
             <!-- Modern Stats Badge -->
             <div class="stats-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                 <span><span id="readCount">0</span> / <span id="totalCount">0</span></span>
             </div>
+            
+            <!-- Chapter Nav -->
+            <select id="chapterNav" class="icon-btn" style="width: auto; padding: 0 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; background-color: var(--solid-bg);">
+                <option value="" disabled selected>Ch</option>
+                <option value="1">Ch 1</option>
+                <option value="2">Ch 2</option>
+                <option value="3">Ch 3</option>
+                <option value="4">Ch 4</option>
+                <option value="5">Ch 5</option>
+                <option value="6">Ch 6</option>
+            </select>
             
             <!-- SVG Reset Icon -->
             <button class="icon-btn" id="resetBtn" title="Reset Progress">
@@ -203,6 +217,12 @@
 
         <div class="mcq-list" id="mcqContainer">
             <!-- MCQs JS (Optimized with DocumentFragment) -->
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+            <p style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                Initially created by Rafeul Islam, later redesigned by the Mutu study.
+            </p>
         </div>
     </div>
 
@@ -322,6 +342,12 @@
                 trackingList = [];
                 const activeTab = document.querySelector('.tab-btn.active');
                 renderMCQs(CONFIG.tabs.find(t => t.label === activeTab.textContent).id);
+            }
+        });
+        
+        document.getElementById('chapterNav').addEventListener('change', (e) => {
+            if(e.target.value) {
+                window.location.href = '/chapter' + e.target.value + '.html';
             }
         });
 
