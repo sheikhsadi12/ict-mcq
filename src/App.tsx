@@ -45,8 +45,8 @@ export default function App() {
           </div>
         </div>
         <div className="bg-slate-50 p-4 border-t border-slate-200 text-center">
-          <p className="text-xs text-slate-500 font-medium">
-            Initially created by Rafeul Islam, later redesigned by the Mutu study.
+          <p className="text-sm text-slate-600 font-medium italic tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>
+            Initially created by Rafeul Islam, later redesigned by the Mutu Study.
           </p>
         </div>
       </div>
