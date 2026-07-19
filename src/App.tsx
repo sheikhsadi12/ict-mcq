@@ -44,10 +44,20 @@ export default function App() {
             ))}
           </div>
         </div>
-        <div className="bg-slate-50 p-4 border-t border-slate-200 text-center">
-          <p className="text-sm text-slate-600 font-medium italic tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>
-            Initially created by Rafeul Islam, later redesigned by the Mutu Study.
-          </p>
+        <div className="bg-slate-100 p-8 border-t border-slate-200 flex items-center justify-center relative overflow-hidden">
+          <div className="relative w-full max-w-[280px]">
+            <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 via-fuchsia-500 to-indigo-500 rounded-2xl blur-md opacity-60"></div>
+            <div className="relative bg-slate-900 rounded-xl p-5 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] border border-slate-700 text-center">
+              <div className="border border-amber-500/30 p-4 rounded-lg bg-slate-900/50">
+                <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-amber-200 to-amber-500 mb-2" style={{ fontFamily: '"Dancing Script", cursive', textShadow: '0 2px 15px rgba(245,158,11,0.3)' }}>
+                  Initially created by<br/>Rafeul Islam,
+                </p>
+                <p className="text-[10px] font-semibold bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-300 to-indigo-300 tracking-widest uppercase mt-3" style={{ fontFamily: '"Cinzel", serif' }}>
+                  Later redesigned by<br/>the Mutu Study.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
