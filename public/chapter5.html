@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ICT MUTU Study</title>
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Theme Palette */
+            --bg-grad-1: #f8fafc;
+            --bg-grad-2: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --solid-bg: #ffffff;
+            
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.15);
+            --accent: #f43f5e;
+            --success: #10b981;
+            
+            --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.04);
+            --shadow-inner: inset 0 2px 4px rgba(255,255,255,0.5);
+        }
+        
+        [data-theme="dark"] {
+            /* Dark Theme Palette (OLED optimized) */
+            --bg-grad-1: #020617;
+            --bg-grad-2: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --solid-bg: #1e293b;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --primary: #818cf8;
+            --primary-glow: rgba(129, 140, 248, 0.15);
+            --accent: #fb7185;
+            
+            --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-inner: inset 0 1px 1px rgba(255,255,255,0.02);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif; 
+            color: var(--text-main); line-height: 1.7; 
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+            background-attachment: fixed; min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- Progress Bar --- */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 2000; background: transparent; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.3s ease-out; box-shadow: 0 0 10px var(--primary-glow); }
+
+        /* --- Premium Navbar --- */
+        nav {
+            position: sticky; top: 12px; margin: 0 12px 20px; padding: 12px 16px;
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            box-shadow: var(--shadow-soft), var(--shadow-inner);
+        }
+        
+        .nav-brand { font-weight: 800; font-size: 1.2rem; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;}
+        
+        /* Stats & Icons */
+        .nav-actions { display: flex; align-items: center; gap: 8px; }
+        
+        .stats-badge { 
+            display: flex; align-items: center; gap: 6px; background: var(--solid-bg); 
+            padding: 6px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 700; 
+            border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); color: var(--text-main);
+        }
+        .stats-badge svg { width: 14px; height: 14px; color: var(--primary); }
+
+        .icon-btn { 
+            background: var(--solid-bg); border: 1px solid var(--glass-border); color: var(--text-main); 
+            width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+            cursor: pointer; box-shadow: var(--shadow-soft); transition: all 0.2s;
+        }
+        .icon-btn svg { width: 18px; height: 18px; stroke-width: 2.5; }
+        .icon-btn:active { transform: scale(0.9); background: var(--primary-glow); color: var(--primary); }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 16px 80px; }
+
+        /* --- Hero --- */
+        .hero { text-align: center; padding: 20px 0 30px; }
+        .hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; color: var(--text-main); letter-spacing: -0.5px;}
+        .hero p { font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+
+        /* --- Tabs (Optimized for speed) --- */
+        .tabs-container {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 6px; border-radius: 20px; border: 1px solid var(--glass-border);
+            display: flex; overflow-x: auto; margin-bottom: 24px; box-shadow: var(--shadow-soft);
+        }
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            flex: 1; min-width: max-content; background: transparent; border: none;
+            padding: 12px 16px; border-radius: 14px; font-size: 0.9rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; transition: all 0.2s ease;
+        }
+        .tab-btn.active { background: var(--solid-bg); color: var(--primary); box-shadow: 0 4px 12px var(--primary-glow); }
+
+        /* --- MCQ Cards --- */
+        .mcq-list { display: flex; flex-direction: column; gap: 20px; }
+        
+        .mcq-card {
+            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; 
+            box-shadow: var(--shadow-soft); transition: border-color 0.3s;
+        }
+        .mcq-card.completed { border-color: var(--success); }
+
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .q-badge { font-size: 0.75rem; font-weight: 700; padding: 4px 12px; background: var(--primary-glow); color: var(--primary); border-radius: 100px; }
+        .tag { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); border: 1px solid var(--glass-border); padding: 3px 10px; border-radius: 100px; }
+
+        .question { font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-bottom: 20px; line-height: 1.5; }
+        
+        .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .opt-item { 
+            padding: 14px 18px; border: 1px solid var(--glass-border); border-radius: 16px; 
+            font-size: 0.95rem; font-weight: 500; background: var(--solid-bg); color: var(--text-muted); 
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .ans-reveal { 
+            background: var(--solid-bg); border-radius: 16px; padding: 16px; margin-bottom: 20px;
+            border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 12px; 
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+        .ans-reveal span { font-size: 1rem; font-weight: 600; color: var(--primary); }
+
+        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        .btn { 
+            padding: 12px; border-radius: 14px; font-size: 0.9rem; font-weight: 600; 
+            cursor: pointer; transition: transform 0.1s, background 0.3s; border: none;
+        }
+        .btn-secondary { background: var(--solid-bg); border: 1px solid var(--glass-border); color: var(--text-main); box-shadow: var(--shadow-soft); }
+        .btn-primary { background: var(--text-main); color: var(--bg-grad-1); }
+        
+        .mcq-card.completed .btn-primary { background: var(--success); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); }
+        .btn:active { transform: scale(0.96); }
+
+        .explanation { 
+            display: none; grid-column: 1 / -1; background: var(--solid-bg); padding: 16px; 
+            border-radius: 16px; font-size: 0.9rem; color: var(--text-muted); margin-top: 8px; border: 1px solid var(--glass-border);
+        }
+        .explanation.show { display: block; }
+        .expl-title { font-weight: 600; margin-bottom: 4px; display: block; }
+        .logic-text { color: var(--primary); }
+        .trick-text { color: var(--accent); }
+
+        code { font-family: 'Fira Code', monospace; background: var(--primary-glow); color: var(--primary); padding: 2px 6px; border-radius: 6px; font-size: 0.85rem;}
+    </style>
+</head>
+<body>
+
+    <div class="progress-container"><div class="progress-bar" id="barFill"></div></div>
+
+    <nav>
+        <div class="nav-brand">ICT • Mutu</div>
+        <div class="nav-actions">
+            <!-- Modern Stats Badge -->
+            <div class="stats-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span><span id="readCount">0</span> / <span id="totalCount">0</span></span>
+            </div>
+            
+            <!-- SVG Reset Icon -->
+            <button class="icon-btn" id="resetBtn" title="Reset Progress">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            </button>
+            
+            <!-- SVG Theme Icon -->
+            <button class="icon-btn" id="themeBtn" title="Toggle Theme">
+                <!-- Icon will be injected via JS based on theme -->
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1 id="pageTitle">Chapter Title</h1>
+            <p id="pageSubtitle">Subheading</p>
+        </div>
+
+        <div class="tabs-container" id="tabContainer">
+            <!-- Tabs JS -->
+        </div>
+
+        <div class="mcq-list" id="mcqContainer">
+            <!-- MCQs JS (Optimized with DocumentFragment) -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🛠️ CONFIGURATION
+        // ==========================================
+        const CONFIG = {
+            title: "অধ্যায় ৫: প্রোগ্রামিং ভাষা (C Programming)", 
+            subtitle: "অ্যালগরিদম, ফ্লোচার্ট ও সি প্রোগ্রামিংয়ের ৬৩টি বাছাইকৃত প্রশ্ন", 
+            storageKey: "ict_pro_ch5", 
+            tabs: [{"id":"tab-1","label":"প্রোগ্রামিং ভাষা"},{"id":"tab-2","label":"অ্যালগরিদম ও ফ্লোচার্ট"},{"id":"tab-3","label":"সি প্রোগ্রামিং (C)"}]
+        };
+
+        const dataset = [{"category":"tab-1","id":"q1","tags":["FS","আ. প. ২৩"],"q":"মানুষের ভাষার সাথে কোন স্তরের ভাষার মিল রয়েছে?","opt":["ক) মেশিন ভাষা","খ) অ্যাসেম্বলি ভাষা","গ) উচ্চ স্তরের ভাষা","ঘ) অতি উচ্চ স্তরের ভাষা"],"ans":"গ) উচ্চ স্তরের ভাষা","logic":"High-Level Language (যেমন- C, Java, Python) এ ইংরেজি শব্দ (if, else, print) ব্যবহৃত হয়, তাই এটি মানুষের ভাষার কাছাকাছি।","trick":"উচ্চ স্তরের ভাষা মানুষের ভাষার মতো।"},{"category":"tab-1","id":"q2","tags":["FS","দি. বো. ১৯"],"q":"সি (C) কোন স্তরের ভাষা?","opt":["ক) নিম্ন স্তরের","খ) মধ্যম স্তরের","গ) উচ্চ স্তরের","ঘ) অ্যাসেম্বলি"],"ans":"খ) মধ্যম স্তরের","logic":"C ভাষাকে Mid-level language বলা হয়, কারণ এতে হাই-লেভেলের সুবিধার পাশাপাশি হার্ডওয়্যার (লো-লেভেল) নিয়ন্ত্রণের ক্ষমতাও আছে।","trick":"সি ভাষা দুই দিকের কাজই পারে, তাই সে মাঝখানে (Mid)।"},{"category":"tab-1","id":"q3","tags":["LM"],"q":"মেশিন ভাষার প্রধান সুবিধা কী?","opt":["ক) সহজে বোঝা যায়","খ) দ্রুত নির্বাহ হয় (Fast execution)","গ) প্রোগ্রাম লেখা সহজ","ঘ) ডিবাগ করা সহজ"],"ans":"খ) দ্রুত নির্বাহ হয় (Fast execution)","logic":"মেশিন ভাষা (0 এবং 1) সরাসরি কম্পিউটার বুঝতে পারে, তাই অনুবাদ করার সময় নষ্ট হয় না এবং সবচেয়ে দ্রুত কাজ করে।","trick":"মেশিন সরাসরি বোঝে, তাই স্পিড সবচেয়ে বেশি।"},{"category":"tab-1","id":"q4","tags":["FS","রা. বো. ২৩"],"q":"অ্যাসেম্বলি ভাষার নির্দেশকে কী বলা হয়?","opt":["ক) নেমোনিক (Mnemonic)","খ) অপকোড","গ) সোর্স কোড","ঘ) বাইটকোড"],"ans":"ক) নেমোনিক (Mnemonic)","logic":"অ্যাসেম্বলি ভাষায় সংকেত বা সাংকেতিক কোড (যেমন- ADD, SUB, MOV) ব্যবহার করা হয়, যাদের Mnemonic বলে।","trick":"সংকেতের ইংরেজি শব্দ নেমোনিক।"},{"category":"tab-1","id":"q5","tags":["FM","ব. বো. ১৯"],"q":"নিচের কোনটি 4GL (4th Generation Language) এর উদাহরণ?","opt":["ক) C","খ) Java","গ) SQL","ঘ) Assembly"],"ans":"গ) SQL","logic":"Structured Query Language (SQL) হলো একটি 4GL বা অতি উচ্চ স্তরের ডাটাবেজ ভাষা।","trick":"4GL মানেই ডাটাবেজ বা SQL।"},{"category":"tab-1","id":"q6","tags":["LM","FS"],"q":"কোন ভাষায় লেখা প্রোগ্রাম কম্পিউটার সরাসরি বুঝতে পারে?","opt":["ক) অ্যাসেম্বলি ভাষা","খ) মেশিন ভাষা","গ) সি ভাষা","ঘ) পাইথন"],"ans":"খ) মেশিন ভাষা","logic":"কম্পিউটার শুধু 0 এবং 1 বোঝে, যা মেশিন ভাষা বা 1st Generation Language।","trick":"কম্পিউটার বা মেশিনের নিজের ভাষা।"},{"category":"tab-1","id":"q7","tags":["FS","ব. বো. ১৯"],"q":"অনুবাদক প্রোগ্রাম (Translator) প্রধানত কয় প্রকার?","opt":["ক) ২ প্রকার","খ) ৩ প্রকার","গ) ৪ প্রকার","ঘ) ৫ প্রকার"],"ans":"খ) ৩ প্রকার","logic":"অনুবাদক প্রোগ্রাম ৩ প্রকার: কম্পাইলার, ইন্টারপ্রেটার এবং অ্যাসেম্বলার।","trick":"তিন ভাই: কম্পাইলার, ইন্টারপ্রেটার, অ্যাসেম্বলার।"},{"category":"tab-1","id":"q8","tags":["FS","ম. বো. ২৪"],"q":"কোন অনুবাদক প্রোগ্রাম সম্পূর্ণ সোর্স কোডকে একসাথে অবজেক্ট কোডে রূপান্তর করে?","opt":["ক) ইন্টারপ্রেটার","খ) কম্পাইলার","গ) অ্যাসেম্বলার","ঘ) লিংকার"],"ans":"খ) কম্পাইলার","logic":"Compiler পুরো প্রোগ্রাম একসাথে পড়ে এবং একসাথে অনুবাদ করে।","trick":"Comp-iler মানে Complete (একসাথে)।"},{"category":"tab-1","id":"q9","tags":["LM"],"q":"কোন অনুবাদক প্রোগ্রাম লাইন বাই লাইন অনুবাদ করে?","opt":["ক) কম্পাইলার","খ) অ্যাসেম্বলার","গ) ইন্টারপ্রেটার","ঘ) ডিবাগার"],"ans":"গ) ইন্টারপ্রেটার","logic":"Interpreter এক লাইন পড়ে, অনুবাদ করে, ভুল থাকলে থেমে যায়।","trick":"Inter-preter মানে Line by Line।"},{"category":"tab-1","id":"q10","tags":["FS","FM","কু. বো. ২৩"],"q":"অ্যাসেম্বলি ভাষাকে মেশিন ভাষায় রূপান্তর করে কোনটি?","opt":["ক) কম্পাইলার","খ) ইন্টারপ্রেটার","গ) লিংকার","ঘ) অ্যাসেম্বলার"],"ans":"ঘ) অ্যাসেম্বলার","logic":"Assembler শুধুমাত্র অ্যাসেম্বলি ভাষার প্রোগ্রামকে মেশিন ভাষায় অনুবাদ করার জন্য তৈরি।","trick":"নামের সাথেই মিল: Assembly -> Assembler।"},{"category":"tab-1","id":"q11","tags":["FS","ব. বো. ১৯"],"q":"সোর্স কোড (Source Code) কী?","opt":["ক) মেশিন ভাষায় লেখা প্রোগ্রাম","খ) উচ্চ স্তরের বা মানুষের বোধগম্য ভাষায় লেখা প্রোগ্রাম","গ) অনুবাদ করা প্রোগ্রাম","ঘ) ভুল প্রোগ্রাম"],"ans":"খ) উচ্চ স্তরের বা মানুষের বোধগম্য ভাষায় লেখা প্রোগ্রাম","logic":"প্রোগ্রামার যে ভাষায় কোড লেখে (যেমন C বা Python) তাকে সোর্স কোড বলে।","trick":"উৎস বা অরিজিনাল কোড।"},{"category":"tab-1","id":"q12","tags":["LM","FS"],"q":"অবজেক্ট কোড (Object Code) কী?","opt":["ক) মেশিন ভাষায় রূপান্তরিত কোড","খ) মানুষের লেখা কোড","গ) ফ্লোচার্ট","ঘ) অ্যালগরিদম"],"ans":"ক) মেশিন ভাষায় রূপান্তরিত কোড","logic":"অনুবাদক প্রোগ্রাম সোর্স কোডকে অনুবাদ করে যে মেশিন কোড (0,1) তৈরি করে, তাকে অবজেক্ট কোড বলে।","trick":"সোর্স -> অনুবাদক -> অবজেক্ট (মেশিন)।"},{"category":"tab-1","id":"q13","tags":["FS","ম. বো. ২৪"],"q":"উচ্চ স্তরের ভাষাকে মেশিন ভাষায় রূপান্তরের জন্য কোনটি ব্যবহৃত হয়?","opt":["ক) অ্যাসেম্বলার","খ) কম্পাইলার ও ইন্টারপ্রেটার","গ) শুধু লিংকার","ঘ) শুধু লোডার"],"ans":"খ) কম্পাইলার ও ইন্টারপ্রেটার","logic":"High-level language কে অনুবাদ করতে কম্পাইলার বা ইন্টারপ্রেটার লাগে।","trick":"উচ্চ স্তরের জন্য বড় দুটি অনুবাদক লাগে।"},{"category":"tab-1","id":"q14","tags":["FS","চ. বো. ১৯"],"q":"কোনটি ভুল খোঁজা ও সংশোধনের কাজ সহজ করে?","opt":["ক) কম্পাইলার","খ) ইন্টারপ্রেটার","গ) অ্যাসেম্বলার","ঘ) লোডার"],"ans":"খ) ইন্টারপ্রেটার","logic":"যেহেতু এটি লাইন বাই লাইন অনুবাদ করে, তাই প্রথম ভুল পেলেই থেমে যায় এবং ডিবাগ করা সহজ হয়।","trick":"লাইন বাই লাইন চেকিং এ ভুল ধরা সহজ।"},{"category":"tab-1","id":"q15","tags":["LM","FM"],"q":"C প্রোগ্রামের ভুলগুলোকে কী বলা হয়?","opt":["ক) বাগ (Bug)","খ) ভাইরাস","গ) ম্যালওয়্যার","ঘ) এরর কোড"],"ans":"ক) বাগ (Bug)","logic":"প্রোগ্রামিংয়ের ভাষায় যেকোনো ভুল বা ত্রুটিকে Bug বলা হয়।","trick":"কম্পিউটারের ভেতরে পোকা (Bug)।"},{"category":"tab-1","id":"q16","tags":["FS","ঢা. বো. ২৩"],"q":"প্রোগ্রামের ভুল খুঁজে বের করে সংশোধন করাকে কী বলে?","opt":["ক) টেস্টিং","খ) ডিবাগিং (Debugging)","গ) কম্পাইলিং","ঘ) কোডিং"],"ans":"খ) ডিবাগিং (Debugging)","logic":"Bug মানে ভুল, আর De-bugging মানে সেই ভুল দূর করা বা সংশোধন করা।","trick":"পোকা মারা বা ভুল দূর করা।"},{"category":"tab-1","id":"q17","tags":["FS","ব. বো. ১৯"],"q":"প্রোগ্রাম ডিজাইনের প্রধান টুলস কোনটি?","opt":["ক) কম্পাইলার","খ) অ্যালগরিদম ও ফ্লোচার্ট","গ) সি ভাষা","ঘ) ইন্টারপ্রেটার"],"ans":"খ) অ্যালগরিদম ও ফ্লোচার্ট","logic":"কোড লেখার আগে লজিক সাজানোর জন্য অ্যালগরিদম ও ফ্লোচার্ট ব্যবহার করে প্রোগ্রাম ডিজাইন করা হয়।","trick":"বাড়ি বানানোর আগে যেমন নকশা (ফ্লোচার্ট) লাগে।"},{"category":"tab-1","id":"q18","tags":["LM","FS"],"q":"সিনট্যাক্স এরর (Syntax Error) কখন হয়?","opt":["ক) লজিকে ভুল থাকলে","খ) ব্যাকরণ বা কোড লেখার নিয়মে ভুল থাকলে","গ) ডিভাইসে সমস্যা থাকলে","ঘ) ইন্টারনেটে সমস্যা থাকলে"],"ans":"খ) ব্যাকরণ বা কোড লেখার নিয়মে ভুল থাকলে","logic":"প্রোগ্রামিং ভাষার নির্দিষ্ট নিয়ম বা বানানে ভুল করলে (যেমন সেমিকোলন না দেওয়া) Syntax Error হয়।","trick":"সিনট্যাক্স মানেই ভাষার ব্যাকরণ বা নিয়ম।"},{"category":"tab-1","id":"q19","tags":["FS","ম. বো. ২৪"],"q":"লজিক্যাল এরর (Logical Error) এর ক্ষেত্রে কোনটি সত্য?","opt":["ক) কম্পাইলার ভুল ধরতে পারে","খ) প্রোগ্রাম রান হয় না","গ) প্রোগ্রাম রান হয় কিন্তু ভুল আউটপুট দেয়","ঘ) কম্পিউটার হ্যাং হয়ে যায়"],"ans":"গ) প্রোগ্রাম রান হয় কিন্তু ভুল আউটপুট দেয়","logic":"লজিক ভুল (যেমন + এর জায়গায় - দিলে) থাকলে কম্পাইলার তা বোঝে না, প্রোগ্রাম ঠিকই রান হয় কিন্তু রেজাল্ট ভুল আসে।","trick":"কম্পাইলার শুধু বানান চেক করে, লজিক নয়।"},{"category":"tab-1","id":"q20","tags":["FS","FM","দি. বো. ১৯"],"q":"OOP এর পূর্ণরূপ কী?","opt":["ক) Object Oriented Programming","খ) Object Organized Programming","গ) Output Oriented Programming","ঘ) Open Object Programming"],"ans":"ক) Object Oriented Programming","logic":"Java, C++, Python ইত্যাদি হলো অবজেক্ট ওরিয়েন্টেড প্রোগ্রামিং ভাষা।","trick":"Object Oriented Programming।"},{"category":"tab-2","id":"q21","tags":["LM"],"q":"কোনো সমস্যা সমাধানের যুক্তিসম্মত ও ধাপে ধাপে লিখিত বিবরণকে কী বলে?","opt":["ক) ফ্লোচার্ট","খ) অ্যালগরিদম","গ) সিউডোকোড","ঘ) সোর্স কোড"],"ans":"খ) অ্যালগরিদম","logic":"অ্যালগরিদম হলো কোনো কাজের লিখিত ধাপ (Step by step process)।","trick":"লিখিত ধাপ = অ্যালগরিদম।"},{"category":"tab-2","id":"q22","tags":["FS","চ. বো. ১৯"],"q":"অ্যালগরিদমের চিত্ররূপকে কী বলা হয়?","opt":["ক) সিউডোকোড","খ) ফ্লোচার্ট (Flowchart)","গ) গ্রাফ","ঘ) পাই চার্ট"],"ans":"খ) ফ্লোচার্ট (Flowchart)","logic":"অ্যালগরিদমকে যখন জ্যামিতিক চিহ্নের মাধ্যমে চিত্রে প্রকাশ করা হয়, তাকে প্রবাহচিত্র বা ফ্লোচার্ট বলে।","trick":"চিত্র রূপ = ফ্লোচার্ট।"},{"category":"tab-2","id":"q23","tags":["FS","সি. বো. ১৯"],"q":"ফ্লোচার্টে ডিম্বাকৃতি (Oval) প্রতীক কী নির্দেশ করে?","opt":["ক) ইনপুট/আউটপুট","খ) প্রক্রিয়াকরণ (Processing)","গ) শুরু ও শেষ (Start/Stop)","ঘ) সিদ্ধান্ত (Decision)"],"ans":"গ) শুরু ও শেষ (Start/Stop)","logic":"যেকোনো ফ্লোচার্ট শুরু বা শেষ করতে ক্যাপসুল বা ডিম্বাকৃতি প্রতীক ব্যবহৃত হয়।","trick":"ডিম দিয়ে শুরু, ডিম দিয়ে শেষ।"},{"category":"tab-2","id":"q24","tags":["LM","FS"],"q":"ফ্লোচার্টে সামান্তরিক (Parallelogram) প্রতীক কী নির্দেশ করে?","opt":["ক) প্রক্রিয়াকরণ","খ) ইনপুট/আউটপুট (Input/Output)","গ) সিদ্ধান্ত","ঘ) সংযোগ"],"ans":"খ) ইনপুট/আউটপুট (Input/Output)","logic":"ডেটা গ্রহণ (Read) বা ফলাফল প্রদর্শনের (Print) জন্য সামান্তরিক ব্যবহৃত হয়।","trick":"বাঁকা বাক্স দিয়ে ডেটা ঢোকে আর বের হয়।"},{"category":"tab-2","id":"q25","tags":["FM","ম. বো. ২৪"],"q":"ফ্লোচার্টে আয়তক্ষেত্র (Rectangle) প্রতীক কী নির্দেশ করে?","opt":["ক) ইনপুট","খ) আউটপুট","গ) প্রক্রিয়াকরণ (Processing)","ঘ) সিদ্ধান্ত"],"ans":"গ) প্রক্রিয়াকরণ (Processing)","logic":"যাবতীয় গাণিতিক হিসাব বা অ্যাসাইনমেন্ট (যেমন c = a + b) আয়তক্ষেত্রের ভেতর লিখতে হয়।","trick":"সোজা বাক্স মানেই হিসাব-নিকাশ।"},{"category":"tab-2","id":"q26","tags":["FS","রা. বো. ২৩"],"q":"ফ্লোচার্টে রম্বস (Diamond) বা হীরক প্রতীক কী নির্দেশ করে?","opt":["ক) প্রক্রিয়াকরণ","খ) শুরু/শেষ","গ) সিদ্ধান্ত (Decision)","ঘ) সংযোগ"],"ans":"গ) সিদ্ধান্ত (Decision)","logic":"শর্ত বা কন্ডিশন (যেমন Is a > b?) যাচাই করার জন্য রম্বস চিহ্ন ব্যবহৃত হয়। এখান থেকে Yes বা No দুটি পথ বের হয়।","trick":"ডায়মন্ডের ভেতরে সবসময় প্রশ্নবোধক (?) চিহ্ন বা শর্ত থাকে।"},{"category":"tab-2","id":"q27","tags":["LM"],"q":"ফ্লোচার্টে ছোট বৃত্ত (Circle) প্রতীক কী নির্দেশ করে?","opt":["ক) শুরু","খ) সংযোগ (Connector)","গ) সিদ্ধান্ত","ঘ) প্রক্রিয়াকরণ"],"ans":"খ) সংযোগ (Connector)","logic":"একাধিক দিক থেকে আসা তীরের মাথা বা ফ্লো-লাইনগুলোকে এক বিন্দুতে মেলাতে সংযোগকারী বৃত্ত ব্যবহৃত হয়।","trick":"বৃত্ত মানেই জয়েন্ট বা কানেকশন।"},{"category":"tab-2","id":"q28","tags":["FS","ব. বো. ১৯"],"q":"ফ্লোচার্টে ডেটা প্রবাহের দিক নির্দেশ করতে কী ব্যবহৃত হয়?","opt":["ক) রম্বস","খ) তীর চিহ্ন (Arrow/Flow line)","গ) বৃত্ত","ঘ) সামান্তরিক"],"ans":"খ) তীর চিহ্ন (Arrow/Flow line)","logic":"এক ধাপ থেকে পরের ধাপে যাওয়ার দিক বোঝাতে ফ্লো-লাইন বা তীর চিহ্ন ব্যবহৃত হয়।","trick":"তীর দেখিয়ে দেয় কোন দিকে যেতে হবে।"},{"category":"tab-2","id":"q29","tags":["FS","রা. বো. ২৩"],"q":"প্রোগ্রামের কোনো নির্দিষ্ট অংশ বারবার সম্পন্ন করাকে কী বলে?","opt":["ক) ব্রাঞ্চিং","খ) লুপিং (Looping)","গ) জাম্পিং","ঘ) শর্টিং"],"ans":"খ) লুপিং (Looping)","logic":"শর্ত পূরণ না হওয়া পর্যন্ত একই কাজ বারবার পুনরাবৃত্তি করাকে লুপ বলে (যেমন for, while লুপ)।","trick":"চক্রাকারে ঘোরা = লুপ।"},{"category":"tab-2","id":"q30","tags":["LM","FS","FM"],"q":"শর্তসাপেক্ষে প্রোগ্রামের ফ্লো বা কন্ট্রোল এক লাইন থেকে অন্য লাইনে লাফিয়ে যাওয়াকে কী বলে?","opt":["ক) ব্রাঞ্চিং বা জাম্পিং","খ) লুপিং","গ) প্রসেসিং","ঘ) ইনপুটিং"],"ans":"ক) ব্রাঞ্চিং বা জাম্পিং","logic":"if-else বা goto স্টেটমেন্ট ব্যবহার করে প্রোগ্রামের ফ্লো পরিবর্তন করাকে ব্রাঞ্চিং বা কন্ট্রোল স্টেটমেন্ট বলে।","trick":"লাফ দেওয়া মানেই জাম্প বা ব্রাঞ্চ।"},{"category":"tab-3","id":"q31","tags":["FS","সি. বো. ১৯"],"q":"সি (C) ভাষা কে তৈরি করেন?","opt":["ক) বিল গেটস","খ) ডেনিস রিচি (Dennis Ritchie)","গ) স্টিভ জবস","ঘ) চার্লস ব্যাবেজ"],"ans":"খ) ডেনিস রিচি (Dennis Ritchie)","logic":"ডেনিস রিচি ১৯৭২ সালে বেল ল্যাবরেটরিতে সি ভাষা তৈরি করেন।","trick":"সি এর জনক ডেনিস রিচি।"},{"category":"tab-3","id":"q32","tags":["FS","ব. বো. ১৯"],"q":"সি প্রোগ্রামে প্রতিটি স্টেটমেন্টের শেষে কোন চিহ্ন দিতে হয়?","opt":["ক) কোলন (:)","খ) ফুলস্টপ (.)","গ) সেমিকোলন (;)","ঘ) কমা (,)"],"ans":"গ) সেমিকোলন (;)","logic":"C এবং C++ ভাষায় প্রতিটি স্টেটমেন্ট বা লাইন শেষ বোঝাতে সেমিকোলন (;) ব্যবহার বাধ্যতামূলক।","trick":"লাইনের শেষে সেমিকোলন না দিলে Syntax Error খাবেন।"},{"category":"tab-3","id":"q33","tags":["LM"],"q":"সি প্রোগ্রামের মূল ফাংশন কোনটি, যেখান থেকে প্রোগ্রাম রান করা শুরু হয়?","opt":["ক) start()","খ) void()","গ) main()","ঘ) begin()"],"ans":"গ) main()","logic":"যেকোনো C প্রোগ্রাম execution সর্বদা main() ফাংশন থেকে শুরু হয়।","trick":"সবকিছুর শুরু main দিয়ে হয়।"},{"category":"tab-3","id":"q34","tags":["FS","রা. বো. ২৩"],"q":"সি ভাষায় ডেটা ইনপুট নেওয়ার ফাংশন কোনটি?","opt":["ক) print()","খ) printf()","গ) scanf()","ঘ) input()"],"ans":"গ) scanf()","logic":"স্ট্যান্ডার্ড ইনপুটের (কিবোর্ড) জন্য C তে scanf() ফাংশন ব্যবহৃত হয়।","trick":"স্ক্যান করে ডেটা ভেতরে নেয়।"},{"category":"tab-3","id":"q35","tags":["FM","ম. বো. ২৪"],"q":"সি ভাষায় ফলাফল আউটপুট দেখানোর ফাংশন কোনটি?","opt":["ক) cout","খ) printf()","গ) display()","ঘ) scanf()"],"ans":"খ) printf()","logic":"মনিটরে ফলাফল বা টেক্সট প্রিন্ট করার জন্য C তে printf() ব্যবহৃত হয়।","trick":"প্রিন্ট করে বাইরে দেখায়।"},{"category":"tab-3","id":"q36","tags":["LM","FS"],"q":"printf() এবং scanf() ফাংশন দুটি কোন হেডার ফাইলে থাকে?","opt":["ক) math.h","খ) conio.h","গ) stdio.h","ঘ) string.h"],"ans":"গ) stdio.h","logic":"Standard Input Output (stdio.h) হেডার ফাইলেই প্রিন্ট এবং স্ক্যানের কাজ ডিফাইন করা থাকে।","trick":"std (standard) io (input output)."},{"category":"tab-3","id":"q37","tags":["FS","ঢা. বো. ২৩"],"q":"হেডার ফাইল প্রোগ্রামে যুক্ত করার জন্য কোন কীওয়ার্ড ব্যবহৃত হয়?","opt":["ক) #import","খ) #include","গ) #define","ঘ) #add"],"ans":"খ) #include","logic":"C প্রোগ্রামের একদম শুরুতে #include <stdio.h> লিখে হেডার ফাইল যুক্ত করতে হয়।","trick":"ইনক্লুড মানে যুক্ত করা।"},{"category":"tab-3","id":"q38","tags":["FS","ব. বো. ১৯"],"q":"পূর্ণসংখ্যা (Integer) রাখার জন্য কোন ডেটা টাইপ ব্যবহৃত হয়?","opt":["ক) float","খ) char","গ) int","ঘ) double"],"ans":"গ) int","logic":"দশমিক বিহীন পূর্ণসংখ্যা (যেমন- 5, -10, 100) রাখার জন্য int (Integer) ব্যবহৃত হয়।","trick":"Integer এর শর্টকাট int।"},{"category":"tab-3","id":"q39","tags":["LM"],"q":"দশমিক বা ভগ্নাংশ সংখ্যা রাখার জন্য কোন ডেটা টাইপ ব্যবহৃত হয়?","opt":["ক) int","খ) float","গ) char","ঘ) long"],"ans":"খ) float","logic":"দশমিক যুক্ত সংখ্যা (যেমন- 3.14, 5.5) রাখার জন্য float বা double ব্যবহৃত হয়।","trick":"পয়েন্ট ভাসা (float) থাকে।"},{"category":"tab-3","id":"q40","tags":["FS","FM","চ. বো. ১৯"],"q":"কোনো অক্ষর বা ক্যারেক্টার (যেমন 'A', 'b') রাখার জন্য কোন ডেটা টাইপ ব্যবহৃত হয়?","opt":["ক) string","খ) int","গ) char","ঘ) float"],"ans":"গ) char","logic":"সিঙ্গেল ক্যারেক্টার সংরক্ষণের জন্য char ডেটা টাইপ ব্যবহৃত হয়।","trick":"Character এর শর্টকাট char।"},{"category":"tab-3","id":"q41","tags":["FS","ব. বো. ১৯"],"q":"int ডেটা টাইপ মেমোরিতে কত বাইট জায়গা নেয়?","opt":["ক) ১ বাইট","খ) ২ বাইট (বা ৪ বাইট)","গ) ৮ বাইট","ঘ) ১৬ বাইট"],"ans":"খ) ২ বাইট (বা ৪ বাইট)","logic":"16-bit কম্পাইলারে int ২ বাইট এবং 32/64-bit কম্পাইলারে ৪ বাইট জায়গা নেয়। (বইয়ে সাধারণত ২ বাইট দেওয়া থাকে)।","trick":"int ২, float ৪, double ৮।"},{"category":"tab-3","id":"q42","tags":["LM","FS"],"q":"float ডেটা টাইপ মেমোরিতে কত বাইট জায়গা নেয়?","opt":["ক) ২ বাইট","খ) ৪ বাইট","গ) ৮ বাইট","ঘ) ১ বাইট"],"ans":"খ) ৪ বাইট","logic":"float ভ্যারিয়েবল মেমোরিতে ৪ বাইট বা ৩২ বিট জায়গা দখল করে।","trick":"ফ্লোট ৪ বাইট।"},{"category":"tab-3","id":"q43","tags":["FS","ম. বো. ২৪"],"q":"char ডেটা টাইপ মেমোরিতে কত বাইট জায়গা নেয়?","opt":["ক) ১ বাইট","খ) ২ বাইট","গ) ৪ বাইট","ঘ) ৮ বাইট"],"ans":"ক) ১ বাইট","logic":"একটি সিঙ্গেল ক্যারেক্টার মেমোরিতে মাত্র ১ বাইট (৮ বিট) জায়গা নেয়।","trick":"অক্ষর সবচেয়ে ছোট, তাই ১ বাইট।"},{"category":"tab-3","id":"q44","tags":["FS","চ. বো. ১৯"],"q":"int ডেটা টাইপের ফরম্যাট স্পেসিফায়ার (Format Specifier) কোনটি?","opt":["ক) %f","খ) %c","গ) %d","ঘ) %s"],"ans":"গ) %d","logic":"ইনটিজার প্রিন্ট বা স্ক্যান করতে %d (decimal integer) ব্যবহৃত হয়।","trick":"d মানে decimal (পূর্ণসংখ্যা)।"},{"category":"tab-3","id":"q45","tags":["LM","FM"],"q":"float ডেটা টাইপের ফরম্যাট স্পেসিফায়ার কোনটি?","opt":["ক) %d","খ) %f","গ) %lf","ঘ) %c"],"ans":"খ) %f","logic":"ফ্লোট প্রিন্ট বা স্ক্যান করতে %f ব্যবহৃত হয়।","trick":"f মানে float।"},{"category":"tab-3","id":"q46","tags":["FS","ঢা. বো. ২৩"],"q":"ডাবল (double) ডেটা টাইপের ফরম্যাট স্পেসিফায়ার কোনটি?","opt":["ক) %d","খ) %f","গ) %lf","ঘ) %c"],"ans":"গ) %lf","logic":"বড় ভগ্নাংশ বা double প্রিন্ট/স্ক্যান করতে %lf (long float) ব্যবহৃত হয়।","trick":"lf মানে long float বা double।"},{"category":"tab-3","id":"q47","tags":["FS","ব. বো. ১৯"],"q":"char ডেটা টাইপের ফরম্যাট স্পেসিফায়ার কোনটি?","opt":["ক) %s","খ) %c","গ) %d","ঘ) %f"],"ans":"খ) %c","logic":"ক্যারেক্টার প্রিন্ট বা স্ক্যান করতে %c ব্যবহৃত হয়।","trick":"c মানে character।"},{"category":"tab-3","id":"q48","tags":["LM","FS"],"q":"সি ভাষায় ভ্যারিয়েবল (Variable) ডিক্লেয়ার করার সঠিক নিয়ম কোনটি?","opt":["ক) 1number int;","খ) int number 1;","গ) int number1;","ঘ) int 1number;"],"ans":"গ) int number1;","logic":"ভ্যারিয়েবলের নাম কখনো সংখ্যা দিয়ে শুরু হতে পারে না এবং নামের মাঝে স্পেস থাকা যাবে না।","trick":"টাইপ আগে, নাম পরে। নাম সংখ্যা দিয়ে শুরু হবে না।"},{"category":"tab-3","id":"q49","tags":["FS","ম. বো. ২৪"],"q":"সি ভাষায় কোনটি সঠিক ভ্যারিয়েবল নেম নয়?","opt":["ক) my_var","খ) student1","গ) TotalSum","ঘ) roll number"],"ans":"ঘ) roll number","logic":"ভ্যারিয়েবলের নামের মাঝখানে কোনো স্পেস (ফাঁকা জায়গা) রাখা বেআইনি।","trick":"স্পেস দেওয়া যাবে না।"},{"category":"tab-3","id":"q50","tags":["FS","FM","কু. বো. ২৩"],"q":"সি ভাষায় নিচের কোনটি রিলেশনাল অপারেটর?","opt":["ক) +","খ) &&","গ) >=","ঘ) ="],"ans":"গ) >=","logic":"দুটি মানের মধ্যে সম্পর্ক বা তুলনা (বড়, ছোট, সমান) বোঝাতে >, <, >=, <=, ==, != ব্যবহৃত হয়।","trick":"তুলনা করা মানেই রিলেশনাল।"},{"category":"tab-3","id":"q51","tags":["LM"],"q":"সি ভাষায় লজিক্যাল AND বোঝাতে কোন অপারেটর ব্যবহৃত হয়?","opt":["ক) &","খ) &&","গ) ||","ঘ) !"],"ans":"খ) &&","logic":"দুটি শর্তই সত্য কিনা তা যাচাই করতে && (Logical AND) ব্যবহৃত হয়।","trick":"ডাবল অ্যাম্পারস্যান্ড (&&)।"},{"category":"tab-3","id":"q52","tags":["FS","দি. বো. ১৯"],"q":"সি ভাষায় লজিক্যাল OR বোঝাতে কোন অপারেটর ব্যবহৃত হয়?","opt":["ক) ||","খ) |","গ) &&","ঘ) !"],"ans":"ক) ||","logic":"যেকোনো একটি শর্ত সত্য কিনা তা যাচাই করতে || (Logical OR) ব্যবহৃত হয়।","trick":"ডাবল পাইপ (||)।"},{"category":"tab-3","id":"q53","tags":["FS","কু. বো. ২৩"],"q":"সি ভাষায় সমতা (Equal) যাচাই করতে কোন অপারেটর ব্যবহৃত হয়?","opt":["ক) =","খ) ==","গ) !=","ঘ) :="],"ans":"খ) ==","logic":"শুধু = মানে ভ্যালু অ্যাসাইন করা। আর == মানে দুটি ভ্যালু সমান কি না তা যাচাই করা।","trick":"ডাবল সমান (==) মানেই তুলনা।"},{"category":"tab-3","id":"q54","tags":["LM","FS"],"q":"সি ভাষায় a++ এর মানে কী?","opt":["ক) a = a + 2","খ) a = a + 1","গ) a = 1","ঘ) a = a * 2"],"ans":"খ) a = a + 1","logic":"++ (Increment) অপারেটর ভ্যারিয়েবলের মান ১ বৃদ্ধি করে।","trick":"ডাবল প্লাস মানে ১ যোগ।"},{"category":"tab-3","id":"q55","tags":["FM","সি. বো. ১৯"],"q":"নিচের কোনটি C ভাষার কি-ওয়ার্ড (Keyword) নয়?","opt":["ক) int","খ) for","গ) if","ঘ) sum"],"ans":"ঘ) sum","logic":"সি ভাষায় ৩২টি সংরক্ষিত শব্দ (Keyword) আছে, যেমন int, float, if, for। sum কোনো কি-ওয়ার্ড নয়, এটি ভ্যারিয়েবল হিসেবে ব্যবহার করা যায়।","trick":"যাদের রং কোড এডিটরে নীল হয়ে যায়, তারা কি-ওয়ার্ড।"},{"category":"tab-3","id":"q56","tags":["FS","ম. বো. ২৪"],"q":"শর্ত যাচাই করে কাজ করার জন্য কোনটি ব্যবহৃত হয়?","opt":["ক) for","খ) if...else","গ) break","ঘ) printf"],"ans":"খ) if...else","logic":"if দিয়ে কন্ডিশন চেক করা হয়, শর্ত সত্য হলে if এর কাজ হয়, মিথ্যা হলে else এর কাজ হয়।","trick":"যদি (if) এমন হয়, তবে (else) তেমন হবে।"},{"category":"tab-3","id":"q57","tags":["LM"],"q":"নিচের কোনটি লুপিং স্টেটমেন্ট নয়?","opt":["ক) for","খ) while","গ) do...while","ঘ) switch"],"ans":"ঘ) switch","logic":"for, while এবং do...while হলো লুপ। switch হলো if-else এর মতো কন্ডিশনাল বা ব্রাঞ্চিং স্টেটমেন্ট।","trick":"সুইচ লুপ নয়, এটি মাল্টিপল চয়েস এর মতো কাজ করে।"},{"category":"tab-3","id":"q61","tags":["FS","মডেল টেস্ট ০৬"],"q":"<code>for(i=1; i<=10; i+=2)</code> লুপটি কতবার ঘুরবে?","opt":["ক) ১০ বার","খ) ৫ বার","গ) ২ বার","ঘ) অসীম বার"],"ans":"খ) ৫ বার","logic":"i এর মান 1 থেকে শুরু হয়ে 2 করে বাড়ছে (1, 3, 5, 7, 9)। অর্থাৎ মোট ৫ বার শর্ত সত্য হবে এবং লুপটি ঘুরবে।","trick":"বিজোড় সংখ্যার ধারা ১০ এর নিচে ৫টিই আছে।"},{"category":"tab-3","id":"q62","tags":["LM","মডেল টেস্ট ০৬"],"q":"সি প্রোগ্রামে নতুন লাইন (New line) তৈরি করতে printf এর ভেতর কোনটি ব্যবহার করতে হয়?","opt":["ক) \\t","খ) \\n","গ) /n","ঘ) &lt;br&gt;"],"ans":"খ) \\n","logic":"C ভাষায় নতুন লাইনে যাওয়ার জন্য এস্কেপ সিকোয়েন্স <code>\\n</code> (ব্যাকস্ল্যাশ n) ব্যবহার করা হয়।","trick":"n মানে new line, আর স্লাশটা বাঁকা (\\)।"},{"category":"tab-3","id":"q63","tags":["FS","সাজেশন"],"q":"কোন লুপে শর্ত মিথ্যা হলেও অন্তত একবার লুপের ভেতরের কাজ সম্পন্ন হয়?","opt":["ক) for loop","খ) while loop","গ) do-while loop","ঘ) nested loop"],"ans":"গ) do-while loop","logic":"do-while লুপে আগে do অংশের কাজ সম্পন্ন হয়, তারপর while এ এসে শর্ত চেক করা হয়। তাই শর্ত মিথ্যা হলেও প্রথমবার কাজ হয়ে যায়।","trick":"আগে 'do' (করো), পরে শর্ত দেখো।"}];
+
+        // ==========================================
+        // ⚙️ ZERO-LAG CORE LOGIC
+        // ==========================================
+
+        document.getElementById('pageTitle').textContent = CONFIG.title;
+        document.getElementById('pageSubtitle').textContent = CONFIG.subtitle;
+        document.getElementById('totalCount').textContent = dataset.length;
+
+        let trackingList = JSON.parse(localStorage.getItem(CONFIG.storageKey)) || [];
+
+        // 1. Setup Tabs
+        const tabContainer = document.getElementById('tabContainer');
+        CONFIG.tabs.forEach((tab, index) => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+            btn.textContent = tab.label;
+            btn.onclick = (e) => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderMCQs(tab.id); // Triggers lag-free render
+            };
+            tabContainer.appendChild(btn);
+        });
+
+        // 2. Optimized Rendering (Zero Lag for 300+ items)
+        function renderMCQs(tabId) {
+            const container = document.getElementById('mcqContainer');
+            container.innerHTML = ''; // Clear current view
+            
+            // DocumentFragment prevents multiple reflows/lags
+            const fragment = document.createDocumentFragment();
+            const filteredData = dataset.filter(q => q.category === tabId);
+            
+            filteredData.forEach((item, index) => {
+                const isChecked = trackingList.includes(item.id);
+                const card = document.createElement('div');
+                card.className = 'mcq-card ' + (isChecked ? 'completed' : '');
+                
+                let tagsHtml = item.tags ? item.tags.map(t => `<span class="tag">${t}</span>`).join('') : '';
+                let optsHtml = item.opt.map(o => `<div class="opt-item">${o}</div>`).join('');
+                
+                let logicHtml = item.logic ? `<div style="margin-bottom:8px;"><span class="expl-title logic-text">লজিক:</span>${item.logic}</div>` : '';
+                let trickHtml = item.trick ? `<div><span class="expl-title trick-text">ট্রিক:</span>${item.trick}</div>` : '';
+
+                card.innerHTML = `
+                    <div class="card-top">
+                        <span class="q-badge">Q-${item.id.replace('q','').replace('_er','').replace('_1','')}</span>
+                        <div>${tagsHtml}</div>
+                    </div>
+                    <div class="question">${item.q}</div>
+                    <div class="options-group">${optsHtml}</div>
+                    <div class="ans-reveal">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span>${item.ans}</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-secondary" onclick="toggleAnalysis(this)">বিস্তারিত</button>
+                        <button class="btn btn-primary" onclick="toggleRead('${item.id}', this, this.closest('.mcq-card'))">
+                            ${isChecked ? 'সম্পন্ন' : 'পড়া শেষ'}
+                        </button>
+                        <div class="explanation">${logicHtml}${trickHtml}</div>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            });
+            
+            container.appendChild(fragment); // Render everything instantly
+            updateProgress();
+        }
+
+        // Action Handlers
+        window.toggleAnalysis = function(btn) {
+            const pnl = btn.parentElement.querySelector('.explanation');
+            pnl.classList.toggle('show');
+            btn.textContent = pnl.classList.contains('show') ? 'লুকান' : 'বিস্তারিত';
+        };
+
+        window.toggleRead = function(id, btnElement, cardElement) {
+            if (!trackingList.includes(id)) {
+                trackingList.push(id);
+                cardElement.classList.add('completed');
+                btnElement.textContent = 'সম্পন্ন';
+            } else {
+                trackingList = trackingList.filter(item => item !== id);
+                cardElement.classList.remove('completed');
+                btnElement.textContent = 'পড়া শেষ';
+            }
+            localStorage.setItem(CONFIG.storageKey, JSON.stringify(trackingList));
+            updateProgress();
+        };
+
+        function updateProgress() {
+            const percent = dataset.length === 0 ? 0 : (trackingList.length / dataset.length) * 100;
+            document.getElementById('barFill').style.width = percent + '%';
+            document.getElementById('readCount').textContent = trackingList.length;
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('পড়ার রেকর্ড মুছতে চান?')) {
+                localStorage.removeItem(CONFIG.storageKey);
+                trackingList = [];
+                const activeTab = document.querySelector('.tab-btn.active');
+                renderMCQs(CONFIG.tabs.find(t => t.label === activeTab.textContent).id);
+            }
+        });
+
+        // Theme Toggle with Premium SVGs
+        const themeBtn = document.getElementById('themeBtn');
+        const rootHtml = document.documentElement;
+        const savedTheme = localStorage.getItem('ict_theme_mutu') || 'light';
+        
+        const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+        const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+
+        const applyTheme = (theme) => {
+            rootHtml.setAttribute('data-theme', theme);
+            themeBtn.innerHTML = theme === 'light' ? moonIcon : sunIcon;
+            localStorage.setItem('ict_theme_mutu', theme);
+        };
+        applyTheme(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const newTheme = rootHtml.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+
+        // Initialize First Tab
+        if(CONFIG.tabs.length > 0) renderMCQs(CONFIG.tabs[0].id);
+
+    </script>
+</body>
+</html>

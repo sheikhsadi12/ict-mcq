@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ICT MUTU Study</title>
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Theme Palette */
+            --bg-grad-1: #f8fafc;
+            --bg-grad-2: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --solid-bg: #ffffff;
+            
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.15);
+            --accent: #f43f5e;
+            --success: #10b981;
+            
+            --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.04);
+            --shadow-inner: inset 0 2px 4px rgba(255,255,255,0.5);
+        }
+        
+        [data-theme="dark"] {
+            /* Dark Theme Palette (OLED optimized) */
+            --bg-grad-1: #020617;
+            --bg-grad-2: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --solid-bg: #1e293b;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --primary: #818cf8;
+            --primary-glow: rgba(129, 140, 248, 0.15);
+            --accent: #fb7185;
+            
+            --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-inner: inset 0 1px 1px rgba(255,255,255,0.02);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif; 
+            color: var(--text-main); line-height: 1.7; 
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+            background-attachment: fixed; min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- Progress Bar --- */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 2000; background: transparent; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.3s ease-out; box-shadow: 0 0 10px var(--primary-glow); }
+
+        /* --- Premium Navbar --- */
+        nav {
+            position: sticky; top: 12px; margin: 0 12px 20px; padding: 12px 16px;
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            box-shadow: var(--shadow-soft), var(--shadow-inner);
+        }
+        
+        .nav-brand { font-weight: 800; font-size: 1.2rem; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;}
+        
+        /* Stats & Icons */
+        .nav-actions { display: flex; align-items: center; gap: 8px; }
+        
+        .stats-badge { 
+            display: flex; align-items: center; gap: 6px; background: var(--solid-bg); 
+            padding: 6px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 700; 
+            border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); color: var(--text-main);
+        }
+        .stats-badge svg { width: 14px; height: 14px; color: var(--primary); }
+
+        .icon-btn { 
+            background: var(--solid-bg); border: 1px solid var(--glass-border); color: var(--text-main); 
+            width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+            cursor: pointer; box-shadow: var(--shadow-soft); transition: all 0.2s;
+        }
+        .icon-btn svg { width: 18px; height: 18px; stroke-width: 2.5; }
+        .icon-btn:active { transform: scale(0.9); background: var(--primary-glow); color: var(--primary); }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 16px 80px; }
+
+        /* --- Hero --- */
+        .hero { text-align: center; padding: 20px 0 30px; }
+        .hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; color: var(--text-main); letter-spacing: -0.5px;}
+        .hero p { font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+
+        /* --- Tabs (Optimized for speed) --- */
+        .tabs-container {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 6px; border-radius: 20px; border: 1px solid var(--glass-border);
+            display: flex; overflow-x: auto; margin-bottom: 24px; box-shadow: var(--shadow-soft);
+        }
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            flex: 1; min-width: max-content; background: transparent; border: none;
+            padding: 12px 16px; border-radius: 14px; font-size: 0.9rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; transition: all 0.2s ease;
+        }
+        .tab-btn.active { background: var(--solid-bg); color: var(--primary); box-shadow: 0 4px 12px var(--primary-glow); }
+
+        /* --- MCQ Cards --- */
+        .mcq-list { display: flex; flex-direction: column; gap: 20px; }
+        
+        .mcq-card {
+            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; 
+            box-shadow: var(--shadow-soft); transition: border-color 0.3s;
+        }
+        .mcq-card.completed { border-color: var(--success); }
+
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .q-badge { font-size: 0.75rem; font-weight: 700; padding: 4px 12px; background: var(--primary-glow); color: var(--primary); border-radius: 100px; }
+        .tag { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); border: 1px solid var(--glass-border); padding: 3px 10px; border-radius: 100px; }
+
+        .question { font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-bottom: 20px; line-height: 1.5; }
+        
+        .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .opt-item { 
+            padding: 14px 18px; border: 1px solid var(--glass-border); border-radius: 16px; 
+            font-size: 0.95rem; font-weight: 500; background: var(--solid-bg); color: var(--text-muted); 
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .ans-reveal { 
+            background: var(--solid-bg); border-radius: 16px; padding: 16px; margin-bottom: 20px;
+            border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 12px; 
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+        .ans-reveal span { font-size: 1rem; font-weight: 600; color: var(--primary); }
+
+        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        .btn { 
+            padding: 12px; border-radius: 14px; font-size: 0.9rem; font-weight: 600; 
+            cursor: pointer; transition: transform 0.1s, background 0.3s; border: none;
+        }
+        .btn-secondary { background: var(--solid-bg); border: 1px solid var(--glass-border); color: var(--text-main); box-shadow: var(--shadow-soft); }
+        .btn-primary { background: var(--text-main); color: var(--bg-grad-1); }
+        
+        .mcq-card.completed .btn-primary { background: var(--success); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); }
+        .btn:active { transform: scale(0.96); }
+
+        .explanation { 
+            display: none; grid-column: 1 / -1; background: var(--solid-bg); padding: 16px; 
+            border-radius: 16px; font-size: 0.9rem; color: var(--text-muted); margin-top: 8px; border: 1px solid var(--glass-border);
+        }
+        .explanation.show { display: block; }
+        .expl-title { font-weight: 600; margin-bottom: 4px; display: block; }
+        .logic-text { color: var(--primary); }
+        .trick-text { color: var(--accent); }
+
+        code { font-family: 'Fira Code', monospace; background: var(--primary-glow); color: var(--primary); padding: 2px 6px; border-radius: 6px; font-size: 0.85rem;}
+    </style>
+</head>
+<body>
+
+    <div class="progress-container"><div class="progress-bar" id="barFill"></div></div>
+
+    <nav>
+        <div class="nav-brand">ICT • Mutu</div>
+        <div class="nav-actions">
+            <!-- Modern Stats Badge -->
+            <div class="stats-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span><span id="readCount">0</span> / <span id="totalCount">0</span></span>
+            </div>
+            
+            <!-- SVG Reset Icon -->
+            <button class="icon-btn" id="resetBtn" title="Reset Progress">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            </button>
+            
+            <!-- SVG Theme Icon -->
+            <button class="icon-btn" id="themeBtn" title="Toggle Theme">
+                <!-- Icon will be injected via JS based on theme -->
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1 id="pageTitle">Chapter Title</h1>
+            <p id="pageSubtitle">Subheading</p>
+        </div>
+
+        <div class="tabs-container" id="tabContainer">
+            <!-- Tabs JS -->
+        </div>
+
+        <div class="mcq-list" id="mcqContainer">
+            <!-- MCQs JS (Optimized with DocumentFragment) -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🛠️ CONFIGURATION
+        // ==========================================
+        const CONFIG = {
+            title: "অধ্যায় ৬: ডেটাবেজ ম্যানেজমেন্ট সিস্টেম", 
+            subtitle: "RDBMS, SQL কোয়েরি এবং এনটিটি রিলেশনশিপ (৫৪টি প্রশ্ন)", 
+            storageKey: "ict_pro_ch6", 
+            tabs: [{"id":"tab-1","label":"ডেটাবেজ ও ফিল্ড"},{"id":"tab-2","label":"SQL ও রিলেশনশিপ"},{"id":"tab-3","label":"ইনডেক্সিং ও নিরাপত্তা"}]
+        };
+
+        const dataset = [{"category":"tab-1","id":"q1","tags":["FS","আ. প. ২৩"],"q":"তথ্য বা Information এর ক্ষুদ্রতম একক কোনটি?","opt":["ক) ডেটা (Data)","খ) রেকর্ড","গ) ফিল্ড","ঘ) ফাইল"],"ans":"ক) ডেটা (Data)","logic":"ডেটা বা উপাত্ত হলো যেকোনো তথ্যের সবচেয়ে ক্ষুদ্রতম বা কাঁচামাল অংশ।","trick":"Data থেকে Process হয়ে Information হয়।"},{"category":"tab-1","id":"q2","tags":["FS","দি. বো. ১৯"],"q":"ডেটাবেজ (Database) শব্দের অর্থ কী?","opt":["ক) তথ্যের সমাবেশ","খ) উপাত্তের ঘাঁটি","গ) উপাত্তের বিশ্লেষণ","ঘ) তথ্যের প্রক্রিয়াকরণ"],"ans":"খ) উপাত্তের ঘাঁটি","logic":"Data মানে উপাত্ত এবং Base মানে ঘাঁটি বা সমাবেশস্থল।","trick":"Base মানে ঘাঁটি।"},{"category":"tab-1","id":"q3","tags":["LM"],"q":"ডেটাবেজের সবচেয়ে ক্ষুদ্রতম লজিক্যাল অংশ কোনটি?","opt":["ক) ফাইল","খ) রেকর্ড","গ) ফিল্ড","ঘ) ডেটাবেজ"],"ans":"গ) ফিল্ড","logic":"টেবিলের এক একটি কলামের শিরোনামকে (যেমন- Name, Roll) ফিল্ড বলে, যা লজিক্যালি সবচেয়ে ছোট অংশ।","trick":"কলামের হেডিং বা নামই হলো ফিল্ড।"},{"category":"tab-1","id":"q4","tags":["FS","রা. বো. ২৩"],"q":"পরস্পর সম্পর্কযুক্ত কয়েকটি ফিল্ড মিলে কী তৈরি হয়?","opt":["ক) ফাইল","খ) ডেটাবেজ","গ) রেকর্ড","ঘ) টেবিল"],"ans":"গ) রেকর্ড","logic":"একটি সারির (Row) সবগুলো ফিল্ডের ডেটা মিলে একজন ব্যক্তির সম্পূর্ণ তথ্য বা রেকর্ড তৈরি হয়।","trick":"অনেকগুলো কলাম মিলে একটা সারি বা রেকর্ড হয়।"},{"category":"tab-1","id":"q5","tags":["FM","ব. বো. ১৯"],"q":"পরস্পর সম্পর্কযুক্ত কয়েকটি রেকর্ড মিলে কী তৈরি হয়?","opt":["ক) ফিল্ড","খ) ফাইল বা ডেটা টেবিল","গ) ডেটাবেজ","ঘ) বাইট"],"ans":"খ) ফাইল বা ডেটা টেবিল","logic":"অনেকগুলো সারি বা রেকর্ড একত্রে মিলে একটি ডেটা টেবিল বা ফাইল তৈরি করে।","trick":"রেকর্ডগুলো জমা হয়ে টেবিল হয়।"},{"category":"tab-1","id":"q6","tags":["LM","FS"],"q":"যে ফিল্ডের মান অদ্বিতীয় (Unique) এবং যার সাহায্যে কোনো রেকর্ডকে আলাদাভাবে চেনা যায়, তাকে কী বলে?","opt":["ক) ফরেন কী","খ) প্রাইমারি কী","গ) কম্পোজিট কী","ঘ) ক্যান্ডিডেট কী"],"ans":"খ) প্রাইমারি কী","logic":"Primary Key এর মান কখনোই ফাঁকা (Null) বা ডুপ্লিকেট হতে পারে না (যেমন- Roll No, NID)।","trick":"যেটা দিয়ে সবাইকে আলাদা চেনা যায়, সেটাই প্রাইমারি।"},{"category":"tab-1","id":"q7","tags":["FS","ব. বো. ১৯"],"q":"এক টেবিলের প্রাইমারি কী যখন অন্য টেবিলে সাধারণ ফিল্ড হিসেবে বসে সম্পর্ক তৈরি করে, তখন তাকে কী বলে?","opt":["ক) ফরেন কী (Foreign Key)","খ) সুপার কী","গ) প্রাইমারি কী","ঘ) কম্পোজিট কী"],"ans":"ক) ফরেন কী (Foreign Key)","logic":"অন্য টেবিল থেকে আসা বা বিদেশি (Foreign) প্রাইমারি কী-ই হলো ফরেন কী।","trick":"বিদেশি বা অন্য টেবিল থেকে আগত মেহমান = ফরেন কী।"},{"category":"tab-1","id":"q8","tags":["FS","ম. বো. ২৪"],"q":"ব্যক্তির নাম বা ঠিকানা সংরক্ষণের জন্য কোন ডেটা টাইপ ব্যবহৃত হয়?","opt":["ক) Number","খ) Text / Short Text","গ) Currency","ঘ) Date/Time"],"ans":"খ) Text / Short Text","logic":"অক্ষর, সংখ্যা এবং চিহ্নের সংমিশ্রণে তৈরি ছোট টেক্সটের (২৫৫ ক্যারেক্টার পর্যন্ত) জন্য Text ব্যবহৃত হয়।","trick":"নাম বা ঠিকানা মানেই টেক্সট।"},{"category":"tab-1","id":"q9","tags":["LM"],"q":"কোনো বড় বর্ণনা (যেমন- রিমার্কস বা বায়োডাটা) সংরক্ষণের জন্য কোন ডেটা টাইপ ব্যবহৃত হয়?","opt":["ক) Text","খ) Number","গ) Memo / Long Text","ঘ) AutoNumber"],"ans":"গ) Memo / Long Text","logic":"Memo ডেটা টাইপে ৬৫,৫৩৬ টি পর্যন্ত ক্যারেক্টার লেখা যায়।","trick":"বড় লেখার জন্য মেমো (Memo)।"},{"category":"tab-1","id":"q10","tags":["FS","FM","কু. বো. ২৩"],"q":"বেতন বা টাকার পরিমাণ সংরক্ষণের জন্য কোন ডেটা টাইপ সবচেয়ে উপযুক্ত?","opt":["ক) Number","খ) Currency","গ) OLE Object","ঘ) Text"],"ans":"খ) Currency","logic":"টাকার অঙ্কের সাথে মুদ্রার চিহ্ন ($ বা Tk) স্বয়ংক্রিয়ভাবে বসানোর জন্য Currency ব্যবহৃত হয়।","trick":"টাকা মানেই কারেন্সি।"},{"category":"tab-1","id":"q11","tags":["FS","ব. বো. ১৯"],"q":"জন্মতারিখ বা যোগদানের তারিখ সংরক্ষণের জন্য কোনটি ব্যবহৃত হয়?","opt":["ক) Number","খ) Text","গ) Date/Time","ঘ) AutoNumber"],"ans":"গ) Date/Time","logic":"যেকোনো তারিখ বা সময় সংরক্ষণের জন্য Date/Time ডেটা টাইপ নির্দিষ্ট করা থাকে।","trick":"তারিখ মানেই ডেট।"},{"category":"tab-1","id":"q12","tags":["LM","FS"],"q":"যে ফিল্ডের মান স্বয়ংক্রিয়ভাবে ১, ২, ৩ করে বাড়তে থাকে, তাকে কী বলে?","opt":["ক) Number","খ) AutoNumber","গ) Currency","ঘ) Memo"],"ans":"খ) AutoNumber","logic":"অটোনম্বার ফিল্ডে ইউজারকে ডেটা এন্ট্রি করতে হয় না, সিস্টেম নিজে থেকে সিরিয়াল বসায়।","trick":"স্বয়ংক্রিয় নম্বর = AutoNumber।"},{"category":"tab-1","id":"q13","tags":["FS","ম. বো. ২৪"],"q":"ডেটাবেজে কোনো ছবি, অডিও বা ভিডিও যুক্ত করার জন্য কোন ডেটা টাইপ ব্যবহৃত হয়?","opt":["ক) Attachment / OLE Object","খ) Memo","গ) Hyperlink","ঘ) Yes/No"],"ans":"ক) Attachment / OLE Object","logic":"Object Linking and Embedding (OLE) বা Attachment এর মাধ্যমে মাল্টিমিডিয়া ফাইল যুক্ত করা যায়।","trick":"ফাইল যুক্ত করা মানেই অ্যাটাচমেন্ট বা অবজেক্ট।"},{"category":"tab-1","id":"q14","tags":["FS","চ. বো. ১৯"],"q":"শর্তসাপেক্ষে শুধু হ্যাঁ বা না (True/False) উত্তর রাখার জন্য কোন ডেটা টাইপ ব্যবহৃত হয়?","opt":["ক) Text","খ) Number","গ) Logical / Yes/No","ঘ) AutoNumber"],"ans":"গ) Logical / Yes/No","logic":"যেকোনো বুলিয়ান মান (যেমন- বিবাহিত কি না? হ্যাঁ/না) সংরক্ষণের জন্য Yes/No ব্যবহৃত হয়।","trick":"লজিক্যাল মানেই হ্যাঁ বা না।"},{"category":"tab-1","id":"q15","tags":["LM","FM"],"q":"কোনো ওয়েবসাইট বা ইমেইল অ্যাড্রেস সংরক্ষণের জন্য কোনটি ব্যবহৃত হয়?","opt":["ক) Text","খ) Memo","গ) Hyperlink","ঘ) OLE Object"],"ans":"গ) Hyperlink","logic":"লিংক ক্লিকেবল করার জন্য হাইপারলিংক ডেটা টাইপ ব্যবহার করা হয়।","trick":"ওয়েবসাইটের ঠিকানা মানেই লিংক।"},{"category":"tab-1","id":"q16","tags":["FS","ঢা. বো. ২৩"],"q":"RDBMS এর পূর্ণরূপ কী?","opt":["ক) Relational Database Management System","খ) Record Database Management System","গ) Relative Data Management System","ঘ) Random Database Management System"],"ans":"ক) Relational Database Management System","logic":"যে সিস্টেমে একাধিক টেবিলের মধ্যে রিলেশন বা সম্পর্ক তৈরি করে ডেটা ম্যানেজ করা যায়, তাকে RDBMS বলে (যেমন- MySQL, Oracle)।","trick":"Relational দিয়ে শুরু।"},{"category":"tab-1","id":"q17","tags":["FS","ব. বো. ১৯"],"q":"DBMS এর কাজ কী?","opt":["ক) নতুন রেকর্ড যুক্ত করা","খ) ডেটা আপডেট বা মুছে ফেলা","গ) ডেটাবেজ তৈরি ও নিয়ন্ত্রণ করা","ঘ) ওপরের সবগুলো"],"ans":"ঘ) ওপরের সবগুলো","logic":"ডেটাবেজ ম্যানেজমেন্ট সিস্টেম (DBMS) ডেটা সংরক্ষণ, আপডেট, ডিলিট এবং সুরক্ষার সব কাজই করে।","trick":"ম্যানেজমেন্ট মানেই সব ধরনের নিয়ন্ত্রণ।"},{"category":"tab-1","id":"q18","tags":["LM","FS"],"q":"ডেটাবেজ অ্যাডমিনিস্ট্রেটর (DBA) এর প্রধান কাজ কী?","opt":["ক) শুধু ডেটা এন্ট্রি করা","খ) ডেটাবেজের নিরাপত্তা ও ব্যাকআপ নিশ্চিত করা","গ) কম্পিউটার বন্ধ করা","ঘ) হার্ডওয়্যার মেরামত করা"],"ans":"খ) ডেটাবেজের নিরাপত্তা ও ব্যাকআপ নিশ্চিত করা","logic":"DBA হলেন সেই ব্যক্তি যিনি ডেটাবেজের ডিজাইন, এক্সেস কন্ট্রোল, ব্যাকআপ এবং সামগ্রিক সিকিউরিটি দেখেন।","trick":"অ্যাডমিন মানেই বস, যে নিরাপত্তা ও মূল কাজ দেখে।"},{"category":"tab-2","id":"q19","tags":["FS","ম. বো. ২৪"],"q":"SQL এর পূর্ণরূপ কী?","opt":["ক) Standard Query Language","খ) Structured Query Language","গ) Simple Query Language","ঘ) Sequential Query Language"],"ans":"খ) Structured Query Language","logic":"SQL হলো রিলেশনাল ডেটাবেজ ম্যানেজ করার জন্য একটি স্ট্যান্ডার্ড ভাষা।","trick":"Structured দিয়ে শুরু।"},{"category":"tab-2","id":"q20","tags":["FS","FM","দি. বো. ১৯"],"q":"SQL এ নতুন ডেটাবেজ বা টেবিল তৈরি করার জন্য কোন কমান্ড ব্যবহৃত হয়?","opt":["ক) CREATE","খ) INSERT","গ) SELECT","ঘ) UPDATE"],"ans":"ক) CREATE","logic":"CREATE কমান্ডটি DDL (Data Definition Language) এর অংশ, যা দিয়ে নতুন স্ট্রাকচার তৈরি করা হয়।","trick":"তৈরি করার ইংরেজিই হলো Create।"},{"category":"tab-2","id":"q21","tags":["LM"],"q":"SQL এ টেবিলের ভেতর নতুন ডেটা বা রেকর্ড যুক্ত করার কমান্ড কোনটি?","opt":["ক) ADD","খ) INSERT INTO","গ) UPDATE","ঘ) CREATE"],"ans":"খ) INSERT INTO","logic":"কোনো টেবিলে নতুন সারি (Row) ইনপুট দিতে INSERT INTO কমান্ড ব্যবহৃত হয়।","trick":"ভেতরে ঢোকানো মানে Insert।"},{"category":"tab-2","id":"q22","tags":["FS","চ. বো. ১৯"],"q":"টেবিল থেকে নির্দিষ্ট কোনো ডেটা মুছে ফেলার কমান্ড কোনটি?","opt":["ক) DROP","খ) DELETE","গ) REMOVE","ঘ) TRUNCATE"],"ans":"খ) DELETE","logic":"DELETE কমান্ড দিয়ে শর্তসাপেক্ষে (WHERE ক্লজ) নির্দিষ্ট রেকর্ড মোছা যায়। (DROP দিলে পুরো টেবিল মুছে যায়)।","trick":"রেকর্ড ডিলিট করতে DELETE।"},{"category":"tab-2","id":"q23","tags":["FS","সি. বো. ১৯"],"q":"ডেটাবেজ থেকে কোনো তথ্য বা ডেটা খুঁজে বের করে আনার কমান্ড কোনটি?","opt":["ক) FIND","খ) SEARCH","গ) SELECT","ঘ) GET"],"ans":"গ) SELECT","logic":"SQL এ যেকোনো ডেটা দেখতে বা খুঁজে আনতে SELECT স্টেটমেন্ট ব্যবহৃত হয়।","trick":"ডেটা নির্বাচন (Select) করে দেখাতে হয়।"},{"category":"tab-2","id":"q24","tags":["LM","FS"],"q":"SELECT কমান্ডের সাথে শর্ত জুড়ে দিতে কোন ক্লজ ব্যবহৃত হয়?","opt":["ক) ORDER BY","খ) GROUP BY","গ) WHERE","ঘ) HAVING"],"ans":"গ) WHERE","logic":"WHERE ক্লজ ব্যবহার করে নির্দিষ্ট শর্তের (যেমন- WHERE age > 18) ওপর ভিত্তি করে ডেটা ফিল্টার করা হয়।","trick":"যেখানে (Where) শর্ত মিলে যায়।"},{"category":"tab-2","id":"q25","tags":["FM","ম. বো. ২৪"],"q":"SQL এ সবগুলো কলাম বা ফিল্ড একসাথে দেখতে কোন চিহ্ন ব্যবহৃত হয়?","opt":["ক) %","খ) * (অ্যাস্টরিস্ক)","গ) #","ঘ) $"],"ans":"খ) * (অ্যাস্টরিস্ক)","logic":"SELECT * FROM Table_Name দিলে টেবিলের সব ফিল্ডের ডেটা চলে আসে।","trick":"স্টার (*) মানে অল (All)।"},{"category":"tab-2","id":"q26","tags":["FS","রা. বো. ২৩"],"q":"ডেটাবেজের কোনো ভুল ডেটা সংশোধন বা পরিবর্তন করার কমান্ড কোনটি?","opt":["ক) MODIFY","খ) CHANGE","গ) UPDATE","ঘ) ALTER"],"ans":"গ) UPDATE","logic":"বিদ্যমান রেকর্ডের কোনো মান পরিবর্তন (যেমন- বেতন বাড়ানো) করতে UPDATE কমান্ড ব্যবহৃত হয়।","trick":"তথ্য হালনাগাদ করা মানে Update।"},{"category":"tab-2","id":"q27","tags":["LM"],"q":"DML (Data Manipulation Language) এর উদাহরণ কোনটি?","opt":["ক) CREATE, ALTER, DROP","খ) SELECT, INSERT, UPDATE, DELETE","গ) GRANT, REVOKE","ঘ) COMMIT, ROLLBACK"],"ans":"খ) SELECT, INSERT, UPDATE, DELETE","logic":"যে কমান্ডগুলো দিয়ে ডেটার ওপর কাজ (যুক্ত, মোছা, পরিবর্তন, খোঁজা) করা যায়, তাদের DML বলে।","trick":"Manipulation মানেই ডেটা নাড়াচাড়া করা।"},{"category":"tab-2","id":"q28","tags":["FS","ব. বো. ১৯"],"q":"DDL (Data Definition Language) এর উদাহরণ কোনটি?","opt":["ক) INSERT, UPDATE","খ) SELECT, DELETE","গ) CREATE, ALTER, DROP","ঘ) GRANT, REVOKE"],"ans":"গ) CREATE, ALTER, DROP","logic":"যে কমান্ডগুলো দিয়ে ডেটাবেজের কাঠামো বা স্ট্রাকচার তৈরি, পরিবর্তন বা ধ্বংস করা হয়, তাদের DDL বলে।","trick":"Definition মানে কাঠামো সংজ্ঞায়িত করা।"},{"category":"tab-2","id":"q29","tags":["FS","রা. বো. ২৩"],"q":"এক টেবিলের একটি রেকর্ডের সাথে অন্য টেবিলের একটি মাত্র রেকর্ডের সম্পর্ককে কী বলে?","opt":["ক) One-to-Many","খ) One-to-One","গ) Many-to-Many","ঘ) Many-to-One"],"ans":"খ) One-to-One","logic":"যেমন একজন মানুষের একটিই পাসপোর্ট থাকতে পারে। এটি One-to-One রিলেশনশিপ।","trick":"একের সাথে এক।"},{"category":"tab-2","id":"q30","tags":["LM","FS","FM"],"q":"এক টেবিলের একটি রেকর্ডের সাথে অন্য টেবিলের একাধিক রেকর্ডের সম্পর্ককে কী বলে?","opt":["ক) One-to-One","খ) Many-to-Many","গ) One-to-Many","ঘ) Many-to-One"],"ans":"গ) One-to-Many","logic":"যেমন একজন মায়ের একাধিক সন্তান থাকতে পারে বা একজন কাস্টমার একাধিক অর্ডার দিতে পারে।","trick":"একের সাথে বহু (Many)।"},{"category":"tab-2","id":"q31","tags":["FS","সি. বো. ১৯"],"q":"উভয় টেবিলের একাধিক রেকর্ডের মধ্যে সম্পর্ক থাকলে তাকে কী বলে?","opt":["ক) One-to-One","খ) One-to-Many","গ) Many-to-Many","ঘ) Many-to-One"],"ans":"গ) Many-to-Many","logic":"যেমন অনেক ছাত্র অনেকগুলো কোর্সে ভর্তি হতে পারে। এই রিলেশনশিপে সাধারণত একটি তৃতীয় বা জংশন টেবিল লাগে।","trick":"বহুর সাথে বহু।"},{"category":"tab-2","id":"q32","tags":["FS","ব. বো. ১৯"],"q":"রিলেশনাল ডেটাবেজে সম্পর্ক (Relationship) তৈরি করার প্রধান শর্ত কী?","opt":["ক) উভয় টেবিলে অন্তত একটি কমন (Common) ফিল্ড থাকতে হবে","খ) উভয় টেবিলের নাম এক হতে হবে","গ) ডেটা টাইপ ভিন্ন হতে হবে","ঘ) টেবিল সাইজ সমান হতে হবে"],"ans":"ক) উভয় টেবিলে অন্তত একটি কমন (Common) ফিল্ড থাকতে হবে","logic":"দুটি টেবিলকে জুড়তে হলে একটি কমন প্রাইমারি/ফরেন কী ফিল্ড থাকা বাধ্যতামূলক।","trick":"কমন ফিল্ড ছাড়া সম্পর্ক হয় না।"},{"category":"tab-2","id":"q33","tags":["LM"],"q":"Entity Relationship (ER) মডেলে এনটিটি বা টেবিলকে কোন প্রতীকের মাধ্যমে প্রকাশ করা হয়?","opt":["ক) আয়তক্ষেত্র (Rectangle)","খ) উপবৃত্ত (Ellipse)","গ) রম্বস (Diamond)","ঘ) সরলরেখা"],"ans":"ক) আয়তক্ষেত্র (Rectangle)","logic":"ER ডায়াগ্রামে আয়তক্ষেত্র দিয়ে এনটিটি (Entity/Table), উপবৃত্ত দিয়ে অ্যাট্রিবিউট (Field) এবং রম্বস দিয়ে রিলেশনশিপ বোঝানো হয়।","trick":"টেবিল মানেই চারকোনা বাক্স (আয়তক্ষেত্র)।"},{"category":"tab-2","id":"q34","tags":["FS","রা. বো. ২৩"],"q":"ER মডেলে অ্যাট্রিবিউট বা ফিল্ডকে কোন প্রতীকের মাধ্যমে প্রকাশ করা হয়?","opt":["ক) আয়তক্ষেত্র","খ) রম্বস","গ) উপবৃত্ত (Ellipse/Oval)","ঘ) ত্রিভুজ"],"ans":"গ) উপবৃত্ত (Ellipse/Oval)","logic":"টেবিলের ফিল্ড বা কলামের নামগুলো উপবৃত্ত বা ওভাল শেপের ভেতর লেখা হয়।","trick":"ফিল্ডগুলো ডিমের মতো গোল গোল হয়।"},{"category":"tab-2","id":"q35","tags":["FM","সি. বো. ১৯"],"q":"ER মডেলে রিলেশনশিপ বা সম্পর্ককে কোন প্রতীকের মাধ্যমে প্রকাশ করা হয়?","opt":["ক) উপবৃত্ত","খ) আয়তক্ষেত্র","গ) রম্বস (Diamond)","ঘ) বৃত্ত"],"ans":"গ) রম্বস (Diamond)","logic":"দুটি এনটিটির মধ্যে কী ধরনের সম্পর্ক (যেমন- Works_in, Teaches) তা রম্বস বা ডায়মন্ড চিহ্নের ভেতরে লেখা হয়।","trick":"সম্পর্ক মানেই ডায়মন্ড (হীরক)।"},{"category":"tab-2","id":"q36","tags":["FS","ম. বো. ২৪"],"q":"ER মডেলে প্রাইমারি কী অ্যাট্রিবিউটকে কীভাবে বোঝানো হয়?","opt":["ক) উপবৃত্তের নিচে দাগ দিয়ে (Underlined)","খ) বোল্ড করে","গ) ডাবল উপবৃত্ত দিয়ে","ঘ) ড্যাশ দাগ দিয়ে"],"ans":"ক) উপবৃত্তের নিচে দাগ দিয়ে (Underlined)","logic":"যেই অ্যাট্রিবিউটটি প্রাইমারি কী, তার নামের নিচে একটি সলিড আন্ডারলাইন দেওয়া থাকে।","trick":"প্রাইমারি বা ভিআইপি, তাই নিচে আন্ডারলাইন।"},{"category":"tab-3","id":"q37","tags":["LM"],"q":"ডেটাবেজ থেকে দ্রুত তথ্য খুঁজে বের করার জন্য ডেটাকে যৌক্তিকভাবে সাজানোর পদ্ধতিকে কী বলে?","opt":["ক) শর্টিং (Sorting)","খ) ইনডেক্সিং (Indexing)","গ) কোয়েরি","ঘ) হ্যাশিং"],"ans":"খ) ইনডেক্সিং (Indexing)","logic":"ইনডেক্সিং ডেটাবেজের নিজস্ব সূচিপত্র তৈরি করে, মূল ডেটা টেবিলের অর্ডার পরিবর্তন না করেই দ্রুত খোঁজার ব্যবস্থা করে।","trick":"বইয়ের সূচিপত্রের (Index) মতো দ্রুত খোঁজার উপায়।"},{"category":"tab-3","id":"q38","tags":["FS","দি. বো. ১৯"],"q":"সর্টিং (Sorting) বলতে কী বোঝায়?","opt":["ক) ডেটা মুছে ফেলা","খ) ডেটা ছোট থেকে বড় বা বড় থেকে ছোট ক্রমানুসারে সাজানো","গ) দ্রুত ডেটা খোঁজা","ঘ) ডেটা এনক্রিপ্ট করা"],"ans":"খ) ডেটা ছোট থেকে বড় বা বড় থেকে ছোট ক্রমানুসারে সাজানো","logic":"A-Z (Ascending) বা Z-A (Descending) অর্ডারে ডেটা বা রেকর্ডগুলোকে ভৌতভাবে সাজানোই হলো সর্টিং।","trick":"অ্যালফাবেট বা নাম্বার অনুযায়ী সিরিয়ালে সাজানো।"},{"category":"tab-3","id":"q39","tags":["FS","কু. বো. ২৩"],"q":"ইনডেক্সিং ও সর্টিং এর মধ্যে মূল পার্থক্য কী?","opt":["ক) ইনডেক্সিং মূল টেবিলকে পরিবর্তন করে, সর্টিং করে না","খ) সর্টিং মূল টেবিলের ডেটা উল্টেপাল্টে সাজায়, ইনডেক্সিং মূল টেবিল ঠিক রেখে আলাদা সূচিপত্র বানায়","গ) দুটোর কাজ একই","ঘ) ইনডেক্সিং ধীরগতির"],"ans":"খ) সর্টিং মূল টেবিলের ডেটা উল্টেপাল্টে সাজায়, ইনডেক্সিং মূল টেবিল ঠিক রেখে আলাদা সূচিপত্র বানায়","logic":"সর্টিংয়ে ডেটার ফিজিক্যাল অর্ডার চেঞ্জ হয়, আর ইনডেক্সিংয়ে লজিক্যাল ফাইল (পয়েন্টার) তৈরি হয় যা মেমোরি বেশি নিলেও অনেক ফাস্ট।","trick":"সর্টিংয়ে ফাইল এলোমেলো হয়, ইনডেক্সিংয়ে সূচিপত্র হয়।"},{"category":"tab-3","id":"q40","tags":["FS"],"q":"ডেটাবেজ নিরাপত্তার সবচেয়ে সাধারণ ও প্রাথমিক ধাপ কোনটি?","opt":["ক) এনক্রিপশন","খ) ইউজার আইডি ও পাসওয়ার্ড ব্যবহার","গ) பயোমেট্রিক্স","ঘ) ফায়ারওয়াল"],"ans":"খ) ইউজার আইডি ও পাসওয়ার্ড ব্যবহার","logic":"যেকোনো সিস্টেমে অননুমোদিত প্রবেশ ঠেকাতে সবার আগে অথেনটিকেশন বা পাসওয়ার্ড লাগে।","trick":"লগইন করার প্রাথমিক ধাপই পাসওয়ার্ড।"},{"category":"tab-3","id":"q41","tags":["LM"],"q":"ডেটাকে গোপন কোডে রূপান্তর করাকে কী বলে, যাতে হ্যাকাররা ডেটা পেলেও বুঝতে না পারে?","opt":["ক) ডিক্রিপশন","খ) হ্যাকিং","গ) এনক্রিপশন (Encryption)","ঘ) শর্টিং"],"ans":"গ) এনক্রিপশন (Encryption)","logic":"পঠনযোগ্য (Plain text) ডেটাকে অপঠনযোগ্য (Cipher text) কোডে পরিণত করাই হলো ক্রিপ্টোগ্রাফি বা এনক্রিপশন।","trick":"লুকিয়ে ফেলা বা সিক্রেট কোড বানানো।"},{"category":"tab-3","id":"q42","tags":["FM"],"q":"ডেটাবেজ থেকে অনাকাঙ্ক্ষিতভাবে ডেটা হারিয়ে গেলে তা পুনরুদ্ধারের ব্যবস্থাকে কী বলে?","opt":["ক) ডেটা রিকভারি বা ব্যাকআপ (Backup)","খ) ডেটা মাইনিং","গ) ডেটা ওয়্যারহাউজিং","ঘ) ডেটা এনক্রিপশন"],"ans":"ক) ডেটা রিকভারি বা ব্যাকআপ (Backup)","logic":"সার্ভার ক্র্যাশ বা অন্য কারণে ডেটা নষ্ট হলে ব্যাকআপ ফাইল থেকে তা রিস্টোর করা হয়।","trick":"বিপদের বন্ধু ব্যাকআপ ফাইল।"},{"category":"tab-3","id":"q43","tags":["FS"],"q":"যিনি বা যারা ডেটাবেজ ব্যবহার করে দৈনন্দিন কাজ করেন (যেমন- ব্যাংকের ক্যাশিয়ার), তাদের কী বলে?","opt":["ক) এন্ড ইউজার (End User)","খ) ডেটাবেজ অ্যাডমিন","গ) সিস্টেম অ্যানালিস্ট","ঘ) প্রোগ্রামার"],"ans":"ক) এন্ড ইউজার (End User)","logic":"যাদের ডেটাবেজের ভেতরের স্ট্রাকচার বা কোড সম্পর্কে ধারণা নেই, শুধু ইন্টারফেস ব্যবহার করে কাজ করে তারা এন্ড ইউজার।","trick":"যে শুধু সফটওয়্যারটা 'ইউজ' করে।"},{"category":"tab-3","id":"q44","tags":["LM"],"q":"বড় আকারের প্রতিষ্ঠানগুলো (যেমন- গুগল, ব্যাংক) হিউজ পরিমাণ ডেটা সংরক্ষণ ও বিশ্লেষণের জন্য যা ব্যবহার করে, তাকে কী বলে?","opt":["ক) ডেটাবেজ","খ) ডেটা ওয়্যারহাউজ (Data Warehouse)","গ) এক্সেল শিট","ঘ) ফাইল সিস্টেম"],"ans":"খ) ডেটা ওয়্যারহাউজ (Data Warehouse)","logic":"ডেটা ওয়্যারহাউজ হলো বিভিন্ন উৎস থেকে আসা বিশাল ডেটার কেন্দ্রীয় ভাণ্ডার, যা মূলত রিপোর্ট তৈরি ও সিদ্ধান্ত নেওয়ার কাজে (Data Analysis) ব্যবহৃত হয়।","trick":"বিশাল ডেটার গুদামঘর।"},{"category":"tab-3","id":"q54","tags":["FS","মডেল টেস্ট ০৭"],"q":"ডেটাবেজ নিরাপত্তার জন্য নিচের কোন উপায়টি সবচেয়ে বেশি কার্যকরী?<br>i) ইউজার আইডি ও পাসওয়ার্ড<br>ii) ডেটা এনক্রিপশন<br>iii) প্রিন্ট আউট সংরক্ষণ","opt":["ক) i ও ii","খ) i ও iii","গ) ii ও iii","ঘ) i, ii ও iii"],"ans":"ক) i ও ii","logic":"প্রিন্ট আউট বা হার্ডকপি সংরক্ষণ করা ডেটাবেজ নিরাপত্তার অংশ নয়, বরং ফিজিক্যাল পাসওয়ার্ড এবং ডিজিটাল এনক্রিপশনই মূল সিকিউরিটি।","trick":"প্রিন্ট করলে তো চুরি হওয়ার ভয় আরও বেশি!"}];
+
+        // ==========================================
+        // ⚙️ ZERO-LAG CORE LOGIC
+        // ==========================================
+
+        document.getElementById('pageTitle').textContent = CONFIG.title;
+        document.getElementById('pageSubtitle').textContent = CONFIG.subtitle;
+        document.getElementById('totalCount').textContent = dataset.length;
+
+        let trackingList = JSON.parse(localStorage.getItem(CONFIG.storageKey)) || [];
+
+        // 1. Setup Tabs
+        const tabContainer = document.getElementById('tabContainer');
+        CONFIG.tabs.forEach((tab, index) => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+            btn.textContent = tab.label;
+            btn.onclick = (e) => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderMCQs(tab.id); // Triggers lag-free render
+            };
+            tabContainer.appendChild(btn);
+        });
+
+        // 2. Optimized Rendering (Zero Lag for 300+ items)
+        function renderMCQs(tabId) {
+            const container = document.getElementById('mcqContainer');
+            container.innerHTML = ''; // Clear current view
+            
+            // DocumentFragment prevents multiple reflows/lags
+            const fragment = document.createDocumentFragment();
+            const filteredData = dataset.filter(q => q.category === tabId);
+            
+            filteredData.forEach((item, index) => {
+                const isChecked = trackingList.includes(item.id);
+                const card = document.createElement('div');
+                card.className = 'mcq-card ' + (isChecked ? 'completed' : '');
+                
+                let tagsHtml = item.tags ? item.tags.map(t => `<span class="tag">${t}</span>`).join('') : '';
+                let optsHtml = item.opt.map(o => `<div class="opt-item">${o}</div>`).join('');
+                
+                let logicHtml = item.logic ? `<div style="margin-bottom:8px;"><span class="expl-title logic-text">লজিক:</span>${item.logic}</div>` : '';
+                let trickHtml = item.trick ? `<div><span class="expl-title trick-text">ট্রিক:</span>${item.trick}</div>` : '';
+
+                card.innerHTML = `
+                    <div class="card-top">
+                        <span class="q-badge">Q-${item.id.replace('q','').replace('_er','').replace('_1','')}</span>
+                        <div>${tagsHtml}</div>
+                    </div>
+                    <div class="question">${item.q}</div>
+                    <div class="options-group">${optsHtml}</div>
+                    <div class="ans-reveal">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span>${item.ans}</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-secondary" onclick="toggleAnalysis(this)">বিস্তারিত</button>
+                        <button class="btn btn-primary" onclick="toggleRead('${item.id}', this, this.closest('.mcq-card'))">
+                            ${isChecked ? 'সম্পন্ন' : 'পড়া শেষ'}
+                        </button>
+                        <div class="explanation">${logicHtml}${trickHtml}</div>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            });
+            
+            container.appendChild(fragment); // Render everything instantly
+            updateProgress();
+        }
+
+        // Action Handlers
+        window.toggleAnalysis = function(btn) {
+            const pnl = btn.parentElement.querySelector('.explanation');
+            pnl.classList.toggle('show');
+            btn.textContent = pnl.classList.contains('show') ? 'লুকান' : 'বিস্তারিত';
+        };
+
+        window.toggleRead = function(id, btnElement, cardElement) {
+            if (!trackingList.includes(id)) {
+                trackingList.push(id);
+                cardElement.classList.add('completed');
+                btnElement.textContent = 'সম্পন্ন';
+            } else {
+                trackingList = trackingList.filter(item => item !== id);
+                cardElement.classList.remove('completed');
+                btnElement.textContent = 'পড়া শেষ';
+            }
+            localStorage.setItem(CONFIG.storageKey, JSON.stringify(trackingList));
+            updateProgress();
+        };
+
+        function updateProgress() {
+            const percent = dataset.length === 0 ? 0 : (trackingList.length / dataset.length) * 100;
+            document.getElementById('barFill').style.width = percent + '%';
+            document.getElementById('readCount').textContent = trackingList.length;
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('পড়ার রেকর্ড মুছতে চান?')) {
+                localStorage.removeItem(CONFIG.storageKey);
+                trackingList = [];
+                const activeTab = document.querySelector('.tab-btn.active');
+                renderMCQs(CONFIG.tabs.find(t => t.label === activeTab.textContent).id);
+            }
+        });
+
+        // Theme Toggle with Premium SVGs
+        const themeBtn = document.getElementById('themeBtn');
+        const rootHtml = document.documentElement;
+        const savedTheme = localStorage.getItem('ict_theme_mutu') || 'light';
+        
+        const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+        const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+
+        const applyTheme = (theme) => {
+            rootHtml.setAttribute('data-theme', theme);
+            themeBtn.innerHTML = theme === 'light' ? moonIcon : sunIcon;
+            localStorage.setItem('ict_theme_mutu', theme);
+        };
+        applyTheme(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const newTheme = rootHtml.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+
+        // Initialize First Tab
+        if(CONFIG.tabs.length > 0) renderMCQs(CONFIG.tabs[0].id);
+
+    </script>
+</body>
+</html>

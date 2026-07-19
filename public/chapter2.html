@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ICT MUTU Study</title>
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Theme Palette */
+            --bg-grad-1: #f8fafc;
+            --bg-grad-2: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --solid-bg: #ffffff;
+            
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.15);
+            --accent: #f43f5e;
+            --success: #10b981;
+            
+            --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.04);
+            --shadow-inner: inset 0 2px 4px rgba(255,255,255,0.5);
+        }
+        
+        [data-theme="dark"] {
+            /* Dark Theme Palette (OLED optimized) */
+            --bg-grad-1: #020617;
+            --bg-grad-2: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --solid-bg: #1e293b;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --primary: #818cf8;
+            --primary-glow: rgba(129, 140, 248, 0.15);
+            --accent: #fb7185;
+            
+            --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-inner: inset 0 1px 1px rgba(255,255,255,0.02);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif; 
+            color: var(--text-main); line-height: 1.7; 
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+            background-attachment: fixed; min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- Progress Bar --- */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 2000; background: transparent; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.3s ease-out; box-shadow: 0 0 10px var(--primary-glow); }
+
+        /* --- Premium Navbar --- */
+        nav {
+            position: sticky; top: 12px; margin: 0 12px 20px; padding: 12px 16px;
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            box-shadow: var(--shadow-soft), var(--shadow-inner);
+        }
+        
+        .nav-brand { font-weight: 800; font-size: 1.2rem; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;}
+        
+        /* Stats & Icons */
+        .nav-actions { display: flex; align-items: center; gap: 8px; }
+        
+        .stats-badge { 
+            display: flex; align-items: center; gap: 6px; background: var(--solid-bg); 
+            padding: 6px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 700; 
+            border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); color: var(--text-main);
+        }
+        .stats-badge svg { width: 14px; height: 14px; color: var(--primary); }
+
+        .icon-btn { 
+            background: var(--solid-bg); border: 1px solid var(--glass-border); color: var(--text-main); 
+            width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+            cursor: pointer; box-shadow: var(--shadow-soft); transition: all 0.2s;
+        }
+        .icon-btn svg { width: 18px; height: 18px; stroke-width: 2.5; }
+        .icon-btn:active { transform: scale(0.9); background: var(--primary-glow); color: var(--primary); }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 16px 80px; }
+
+        /* --- Hero --- */
+        .hero { text-align: center; padding: 20px 0 30px; }
+        .hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; color: var(--text-main); letter-spacing: -0.5px;}
+        .hero p { font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+
+        /* --- Tabs (Optimized for speed) --- */
+        .tabs-container {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 6px; border-radius: 20px; border: 1px solid var(--glass-border);
+            display: flex; overflow-x: auto; margin-bottom: 24px; box-shadow: var(--shadow-soft);
+        }
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            flex: 1; min-width: max-content; background: transparent; border: none;
+            padding: 12px 16px; border-radius: 14px; font-size: 0.9rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; transition: all 0.2s ease;
+        }
+        .tab-btn.active { background: var(--solid-bg); color: var(--primary); box-shadow: 0 4px 12px var(--primary-glow); }
+
+        /* --- MCQ Cards --- */
+        .mcq-list { display: flex; flex-direction: column; gap: 20px; }
+        
+        .mcq-card {
+            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; 
+            box-shadow: var(--shadow-soft); transition: border-color 0.3s;
+        }
+        .mcq-card.completed { border-color: var(--success); }
+
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .q-badge { font-size: 0.75rem; font-weight: 700; padding: 4px 12px; background: var(--primary-glow); color: var(--primary); border-radius: 100px; }
+        .tag { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); border: 1px solid var(--glass-border); padding: 3px 10px; border-radius: 100px; }
+
+        .question { font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-bottom: 20px; line-height: 1.5; }
+        
+        .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .opt-item { 
+            padding: 14px 18px; border: 1px solid var(--glass-border); border-radius: 16px; 
+            font-size: 0.95rem; font-weight: 500; background: var(--solid-bg); color: var(--text-muted); 
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .ans-reveal { 
+            background: var(--solid-bg); border-radius: 16px; padding: 16px; margin-bottom: 20px;
+            border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 12px; 
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+        .ans-reveal span { font-size: 1rem; font-weight: 600; color: var(--primary); }
+
+        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        .btn { 
+            padding: 12px; border-radius: 14px; font-size: 0.9rem; font-weight: 600; 
+            cursor: pointer; transition: transform 0.1s, background 0.3s; border: none;
+        }
+        .btn-secondary { background: var(--solid-bg); border: 1px solid var(--glass-border); color: var(--text-main); box-shadow: var(--shadow-soft); }
+        .btn-primary { background: var(--text-main); color: var(--bg-grad-1); }
+        
+        .mcq-card.completed .btn-primary { background: var(--success); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); }
+        .btn:active { transform: scale(0.96); }
+
+        .explanation { 
+            display: none; grid-column: 1 / -1; background: var(--solid-bg); padding: 16px; 
+            border-radius: 16px; font-size: 0.9rem; color: var(--text-muted); margin-top: 8px; border: 1px solid var(--glass-border);
+        }
+        .explanation.show { display: block; }
+        .expl-title { font-weight: 600; margin-bottom: 4px; display: block; }
+        .logic-text { color: var(--primary); }
+        .trick-text { color: var(--accent); }
+
+        code { font-family: 'Fira Code', monospace; background: var(--primary-glow); color: var(--primary); padding: 2px 6px; border-radius: 6px; font-size: 0.85rem;}
+    </style>
+</head>
+<body>
+
+    <div class="progress-container"><div class="progress-bar" id="barFill"></div></div>
+
+    <nav>
+        <div class="nav-brand">ICT • Mutu</div>
+        <div class="nav-actions">
+            <!-- Modern Stats Badge -->
+            <div class="stats-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span><span id="readCount">0</span> / <span id="totalCount">0</span></span>
+            </div>
+            
+            <!-- SVG Reset Icon -->
+            <button class="icon-btn" id="resetBtn" title="Reset Progress">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            </button>
+            
+            <!-- SVG Theme Icon -->
+            <button class="icon-btn" id="themeBtn" title="Toggle Theme">
+                <!-- Icon will be injected via JS based on theme -->
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1 id="pageTitle">Chapter Title</h1>
+            <p id="pageSubtitle">Subheading</p>
+        </div>
+
+        <div class="tabs-container" id="tabContainer">
+            <!-- Tabs JS -->
+        </div>
+
+        <div class="mcq-list" id="mcqContainer">
+            <!-- MCQs JS (Optimized with DocumentFragment) -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🛠️ CONFIGURATION
+        // ==========================================
+        const CONFIG = {
+            title: "দ্বিতীয় অধ্যায়: কমিউনিকেশন সিস্টেমস", 
+            subtitle: "কমিউনিকেশন ও নেটওয়ার্কিং (৬৮টি অদ্বিতীয় প্রশ্ন ও চিত্র)", 
+            storageKey: "ict_pro_ch2", 
+            tabs: [{"id":"tab-1","label":"কমিউনিকেশন ও মাধ্যম"},{"id":"tab-2","label":"মোবাইল ও ওয়্যারলেস"},{"id":"tab-3","label":"টপোলজি ও ক্লাউড"}]
+        };
+
+        const dataset = [{"category":"tab-1","id":"q1","tags":["FS","ব. বো. ১৯"],"q":"ডেটা কমিউনিকেশনের গতি বা স্পিডকে কী বলে?","opt":["ক) ব্যান্ডউইথ","খ) বডরেট","গ) বিটরেট","ঘ) বাইটরেট"],"ans":"ক) ব্যান্ডউইথ","logic":"প্রতি সেকেন্ডে যে পরিমাণ ডেটা স্থানান্তরিত হয় তাকে ব্যান্ডউইথ (bps) বলে।","trick":"গতির অপর নাম ব্যান্ডউইথ।"},{"category":"tab-1","id":"q2","tags":["FS","ম. বো. ২৪"],"q":"ন্যারো ব্যান্ডের গতি কত?","opt":["ক) 45-300 bps","খ) 300-9600 bps","গ) 1 Mbps","ঘ) 1 Gbps"],"ans":"ক) 45-300 bps","logic":"ন্যারো ব্যান্ড সবচেয়ে ধীরগতির ডেটা ট্রান্সমিশন পদ্ধতি, যা সাধারণত টেলিগ্রাফিতে ব্যবহৃত হয়।","trick":"ন্যারো মানেই সরু বা কম, তাই গতিও সবচেয়ে কম (৪৫-৩০০)।"},{"category":"tab-1","id":"q3","tags":["LM"],"q":"ভয়েস ব্যান্ডের সর্বোচ্চ গতি কত?","opt":["ক) 9600 bps","খ) 300 bps","গ) 1 Mbps","ঘ) 512 Kbps"],"ans":"ক) 9600 bps","logic":"টেলিফোন লাইনে সাধারণত ভয়েস ব্যান্ড ব্যবহৃত হয়, যার গতি 300 bps থেকে 9600 bps পর্যন্ত।","trick":"মানুষের কথার (Voice) গতি ৯৬০০ এর বেশি নয়!"},{"category":"tab-1","id":"q4","tags":["FS","রা. বো. ২৩"],"q":"ব্রডব্যান্ডের নূন্যতম গতি কত?","opt":["ক) 1 Mbps","খ) 2 Mbps","গ) 1 Gbps","ঘ) 512 Kbps"],"ans":"ক) 1 Mbps","logic":"উচ্চগতির ইন্টারনেট কানেকশন বা ব্রডব্যান্ডের গতি সাধারণত 1 Mbps বা তার বেশি হয়।","trick":"ব্রড মানে চওড়া বা বিশাল, তাই গতি মেগাবিট (Mbps) এ শুরু।"},{"category":"tab-1","id":"q5","tags":["FM","ম. বো. ২৪"],"q":"টেলিভিশন সম্প্রচারে কোন ট্রান্সমিশন মোড ব্যবহৃত হয়?","opt":["ক) সিমপ্লেক্স","খ) হাফ-ডুপ্লেক্স","গ) ফুল-ডুপ্লেক্স","ঘ) মাল্টিকাস্ট"],"ans":"ক) সিমপ্লেক্স","logic":"সিমপ্লেক্স মোডে ডেটা শুধু একমুখী প্রবাহিত হয়। টিভি বা রেডিও শুধু ডেটা পাঠায়, গ্রহণ করে খন না।","trick":"টিভি শুধু বক বক করে, আপনার কথা শোনে না (একমুখী)।"},{"category":"tab-1","id":"q6","tags":["LM","FS"],"q":"ওয়াকিটকিতে কোন মোড ব্যবহৃত হয়?","opt":["ক) সিমপ্লেক্স","খ) হাফ-ডুপ্লেক্স","গ) ফুল-ডুপ্লেক্স","ঘ) ব্রডকাস্ট"],"ans":"খ) হাফ-ডুপ্লেক্স","logic":"হাফ-ডুপ্লেক্সে ডেটা উভয় দিকে যায়, তবে একই সময়ে নয়। একজনের কথা শেষ হলে অন্যজন বলে (ওভার)।","trick":"ওয়াকিটকি মানেই 'ওভার' বলে থামতে হয়।"},{"category":"tab-1","id":"q7","tags":["FS","কু. বো. ২৩"],"q":"মোবাইল ফোনে কোন ট্রান্সমিশন মোড ব্যবহৃত হয়?","opt":["ক) সিমপ্লেক্স","খ) হাফ-ডুপ্লেক্স","গ) ফুল-ডুপ্লেক্স","ঘ) ইউনিকাস্ট"],"ans":"গ) ফুল-ডুপ্লেক্স","logic":"ফুল-ডুপ্লেক্সে একই সাথে উভয় দিকে ডেটা পাঠানো ও গ্রহণ করা যায়।","trick":"ফোনে আমরা একই সাথে কথা বলি ও শুনি।"},{"category":"tab-1","id":"q8","tags":["FS","ঢা. বো. ২৩"],"q":"একই সাথে একজন প্রেরক ও শুধুমাত্র একজন প্রাপকের মধ্যে ডেটা আদান-প্রদানকে কী বলে?","opt":["ক) ইউনিকাস্ট","খ) মাল্টিকাস্ট","গ) ব্রডকাস্ট","ঘ) টেলিকাস্ট"],"ans":"ক) ইউনিকাস্ট","logic":"Uni শব্দের অর্থ এক। একজন সেন্ডার থেকে ঠিক একজন রিসিভারের কাছে ডেটা যাওয়া হলো ইউনিকাস্ট।","trick":"Uni = One to One।"},{"category":"tab-1","id":"q9","tags":["LM"],"q":"ভিডিও কনফারেন্সিং এ কোন মোড ব্যবহৃত হয়?","opt":["ক) মাল্টিকাস্ট","খ) ব্রডকাস্ট","গ) ইউনিকাস্ট","ঘ) সিমপ্লেক্স"],"ans":"ক) মাল্টিকাস্ট","logic":"মাল্টিকাস্টে নেটওয়ার্কের নির্দিষ্ট কিছু সদস্য (গ্রুপ) ডেটা পায়, সবাই নয়।","trick":"গ্রুপ চ্যাট বা কনফারেন্স = মাল্টিকাস্ট।"},{"category":"tab-1","id":"q10","tags":["FS","FM","ম. বো. ২৪"],"q":"কিবোর্ড থেকে কম্পিউটারে ডেটা স্থানান্তরের পদ্ধতি কোনটি?","opt":["ক) অ্যাসিনক্রোনাস","খ) সিনক্রোনাস","গ) আইসোক্রোনাস","ঘ) মাল্টিকাস্ট"],"ans":"ক) অ্যাসিনক্রোনাস","logic":"এতে ক্যারেক্টার বাই ক্যারেক্টার ডেটা পাঠানো হয় এবং বিরতির সময় সমান হয় না।","trick":"কিবোর্ডে আমরা একবারে একটা করে অক্ষর টাইপ করি।"},{"category":"tab-1","id":"q11","tags":["FS","ম. বো. ২৪"],"q":"ব্লক বাই ব্লক ডেটা ট্রান্সমিশন পদ্ধতিকে কী বলে?","opt":["ক) সিনক্রোনাস","খ) অ্যাসিনক্রোনাস","গ) আইসোক্রোনাস","ঘ) ব্রডকাস্ট"],"ans":"ক) সিনক্রোনাস","logic":"প্রতিটি ব্লকে ৮০-১৩২টি ক্যারেক্টার থাকে এবং ডেটা ট্রান্সমিশনে বিরতির সময় সমান থাকে।","trick":"ব্লক বা বড় ডেটা মানেই সিনক্রোনাস।"},{"category":"tab-1","id":"q12","tags":["LM","FS"],"q":"রিয়েল টাইম ডেটা ট্রান্সমিশনে কোনটি ব্যবহৃত হয়?","opt":["ক) আইসোক্রোনাস","খ) সিনক্রোনাস","গ) অ্যাসিনক্রোনাস","ঘ) ইউনিকাস্ট"],"ans":"ক) আইসোক্রোনাস","logic":"অডিও/ভিডিও স্ট্রিমিং এ ডেটা ট্রান্সমিশন ডিলে (Delay) শূন্যের কাছাকাছি রাখতে এটি ব্যবহৃত হয়।","trick":"Live স্ট্রিমিং = আইসোক্রোনাস।"},{"category":"tab-1","id":"q13","tags":["FS","রা. বো. ২৩"],"q":"অ্যাসিনক্রোনাস ট্রান্সমিশনে অতিরিক্ত কতগুলো বিট প্রয়োজন হয়?","opt":["ক) ২ বা ৩টি","খ) ১ বা ২টি","গ) ৩ বা ৪টি","ঘ) কোনোটিই নয়"],"ans":"ক) ২ বা ৩টি","logic":"একটি স্টার্ট বিট এবং এক বা একাধিক স্টপ বিট যুক্ত করা হয়।","trick":"শুরু (Start) এবং শেষ (Stop) বিট লাগে।"},{"category":"tab-1","id":"q14","tags":["FS","ব. বো. ১৯"],"q":"কো-এক্সিয়াল ক্যাবলের কেন্দ্রস্থলে কী থাকে?","opt":["ক) কপার ওয়্যার","খ) প্লাস্টিক জ্যাকেট","গ) ফয়েল শিল্ড","ঘ) ডাই-ইলেকট্রিক ইনসুলেটর"],"ans":"ক) কপার ওয়্যার","logic":"কপার বা তামার তার দিয়ে মূল সিগন্যাল প্রবাহিত হয়, যা কেন্দ্রে থাকে।","trick":"তারের মূল প্রাণ হলো ভেতরের তামা (Copper)।"},{"category":"tab-1","id":"q15","tags":["LM","FM"],"q":"টেলিভিশনের ডিশ লাইনে সাধারণত কোন ক্যাবল ব্যবহৃত হয়?","opt":["ক) টুইস্টেড পেয়ার","খ) কো-এক্সিয়াল ক্যাবল","গ) অপটিক্যাল ফাইবার","ঘ) ফাইবার অপটিক"],"ans":"খ) কো-এক্সিয়াল ক্যাবল","logic":"ডিশ বা কেবল টিভির লাইনে ডেটা লস রোধ করতে কো-এক্সিয়াল ক্যাবল সবচেয়ে বেশি ব্যবহৃত হয়।","trick":"ডিশের মোটা তারটাই হলো কো-এক্সিয়াল।"},{"category":"tab-1","id":"q16","tags":["FS","রা. বো. ২৩"],"q":"টুইস্টেড পেয়ার ক্যাবলে কয় জোড়া তার থাকে?","opt":["ক) ২ জোড়া","খ) ৪ জোড়া","গ) ৬ জোড়া","ঘ) ৮ জোড়া"],"ans":"খ) ৪ জোড়া","logic":"টুইস্টেড পেয়ার ক্যাবলে মোট ৮টি তার ৪ জোড়ায় পাকানো থাকে।","trick":"৪ জোড়া = ৮টি তার।"},{"category":"tab-1","id":"q17","tags":["FS","ম. বো. ২৪"],"q":"টুইস্টেড পেয়ার ক্যাবলে তারগুলোকে কেন পেঁচিয়ে রাখা হয়?","opt":["ক) সৌন্দর্য বাড়াতে","খ) ক্রসটক কমানোর জন্য","গ) তারের দৈর্ঘ্য কমাতে","ঘ) দাম কমাতে"],"ans":"খ) ক্রসটক কমানোর জন্য","logic":"তার পেঁচিয়ে রাখলে ইলেক্ট্রোম্যাগনেটিক ইন্টারফেরেন্স (EMI) এবং ক্রসটক বা নয়েজ কমে যায়।","trick":"নয়েজ বা শব্দ দূষণ ঠেকাতেই প্যাঁচানো হয়।"},{"category":"tab-1","id":"q18","tags":["LM","FS"],"q":"অপটিক্যাল ফাইবার কী দিয়ে তৈরি?","opt":["ক) কাচ বা প্লাস্টিক","খ) তামা","গ) অ্যালুমিনিয়াম","ঘ) লোহা"],"ans":"ক) কাচ বা প্লাস্টিক","logic":"এটি অতি স্বচ্ছ সিলিকা গ্লাস বা কাচ দিয়ে তৈরি অত্যন্ত পাতলা তন্তু।","trick":"ফাইবার মানেই কাচ বা প্লাস্টিকের সুতো।"},{"category":"tab-1","id":"q19","tags":["FS","চ. বো. ১৯"],"q":"অপটিক্যাল ফাইবার কোন নীতিতে কাজ করে?","opt":["ক) আলোর প্রতিসরণ","খ) আলোর পূর্ণ অভ্যন্তরীণ প্রতিফলন","গ) আলোর বিচ্ছুরণ","ঘ) ইলেক্ট্রোম্যাগনেটিক রেডিয়েশন"],"ans":"খ) আলোর পূর্ণ অভ্যন্তরীণ প্রতিফলন","logic":"আলোর সিগন্যাল পূর্ণ অভ্যন্তরীণ প্রতিফলনের মাধ্যমে আঁকাবাঁকা পথেও দ্রুত ডেটা পাঠায়।","trick":"আলোর প্রতিফলনেই ডেটা ছোটে।"},{"category":"tab-1","id":"q20","tags":["FS","FM","কু. বো. ২৩"],"q":"অপটিক্যাল ফাইবারের সবচেয়ে ভেতরের স্তরকে কী বলে?","opt":["ক) কোর","খ) ক্ল্যাডিং","গ) জ্যাকেট","ঘ) শিল্ড"],"ans":"ক) কোর","logic":"কোর হলো ভেতরের অংশ, যার প্রতিসরাঙ্ক ক্ল্যাডিং এর চেয়ে বেশি থাকে।","trick":"যেকোনো কিছুর কেন্দ্রকে 'কোর' বলা হয়।"},{"category":"tab-1","id":"q21","tags":["LM"],"q":"আলোর গতিতে ডেটা ট্রান্সমিট করে কোন ক্যাবল?","opt":["ক) অপটিক্যাল ফাইবার","খ) কো-এক্সিয়াল","গ) ইউটিপি","ঘ) এসটিপি"],"ans":"ক) অপটিক্যাল ফাইবার","logic":"এতে ইলেকট্রিক্যাল সিগন্যালের বদলে আলোক সিগন্যাল ব্যবহৃত হয়, তাই গতি সবচেয়ে বেশি।","trick":"আলোর সিগন্যাল = আলোর গতি।"},{"category":"tab-1","id":"q22","tags":["FS","দি. বো. ১৯"],"q":"ইনফ্রারেড ওয়েভ এর রেঞ্জ কত?","opt":["ক) 300 GHz - 400 THz","খ) 3 KHz - 300 GHz","গ) 1 GHz - 300 GHz","ঘ) 1 MHz - 100 MHz"],"ans":"ক) 300 GHz - 400 THz","logic":"টিভি রিমোট বা কাছাকাছি ডিভাইসে ইনফ্রারেড ব্যবহৃত হয়।","trick":"রেড (Red) মানেই টেরাহার্জ (THz) রেঞ্জ।"},{"category":"tab-1","id":"q23","tags":["FS","ব. বো. ১৯"],"q":"টিভি বা এসির রিমোট কন্ট্রোলে কোন তরঙ্গ ব্যবহৃত হয়?","opt":["ক) ইনফ্রারেড","খ) মাইক্রোওয়েভ","গ) রেডিও ওয়েভ","ঘ) ব্লুটুথ"],"ans":"ক) ইনফ্রারেড","logic":"খুব কাছাকাছি দূরত্বে এবং লাইন-অফ-সাইট (সরাসরি) যোগাযোগের জন্য এটি ব্যবহৃত হয়।","trick":"রিমোটের সামনের ছোট লাইটটি ইনফ্রারেড ছড়ায়।"},{"category":"tab-1","id":"q24","tags":["LM","FS"],"q":"রেডিও ওয়েভের ফ্রিকোয়েন্সি কত?","opt":["ক) 3 KHz - 300 GHz","খ) 300 GHz - 400 THz","গ) 300 MHz - 300 GHz","ঘ) 10 KHz - 100 KHz"],"ans":"ক) 3 KHz - 300 GHz","logic":"রেডিও, টিভি ব্রডকাস্ট এবং সেলুলার ফোনে রেডিও ওয়েভ ব্যবহৃত হয়।","trick":"রেডিওর রেঞ্জ সবচেয়ে বিশাল।"},{"category":"tab-1","id":"q25","tags":["FM","ব. বো. ১৯"],"q":"কোন তারবিহীন মাধ্যমে বাধা ভেদ করে ডেটা যেতে পারে?","opt":["ক) রেডিও ওয়েভ","খ) মাইক্রোওয়েভ","গ) ইনফ্রারেড","ঘ) ফাইবার অপটিক"],"ans":"ক) রেডিও ওয়েভ","logic":"রেডিও ওয়েভ দেয়াল বা বিল্ডিং ভেদ করে যেতে পারে, কিন্তু ইনফ্রারেড বা মাইক্রোওয়েভ পারে না।","trick":"রেডিও তরঙ্গ দেয়াল মানে না।"},{"category":"tab-2","id":"q26","tags":["FS","চ. বো. ১৯"],"q":"মাইক্রোওয়েভ সিগন্যাল ট্রান্সমিশনের জন্য কোন কন্ডিশন জরুরি?","opt":["ক) লাইন অব সাইট","খ) নো লাইন অব সাইট","গ) হাই ফ্রিকোয়েন্সি","ঘ) লো ফ্রিকোয়েন্সি"],"ans":"ক) লাইন অব সাইট","logic":"মাইক্রোওয়েভ বাঁকা পথে যেতে পারে না। প্রেরক ও প্রাপক অ্যান্টেনা মুখোমুখি (Line of Sight) থাকতে হয়।","trick":"মাইক্রোওয়েভ একদম সোজা পথে চলে।"},{"category":"tab-2","id":"q27","tags":["LM"],"q":"কৃত্রিম উপগ্রহ বা স্যাটেলাইটে কোন তরঙ্গ ব্যবহৃত হয়?","opt":["ক) মাইক্রোওয়েভ","খ) রেডিও ওয়েভ","গ) ইনফ্রারেড","ঘ) অপটিক্যাল তরঙ্গ"],"ans":"ক) মাইক্রোওয়েভ","logic":"ভূ-পৃষ্ঠ থেকে মহাশূন্যে স্যাটেলাইটের সাথে যোগাযোগের জন্য উচ্চশক্তির মাইক্রোওয়েভ ব্যবহৃত হয়।","trick":"মহাকাশে যোগাযোগের মাধ্যম মাইক্রোওয়েভ।"},{"category":"tab-2","id":"q28","tags":["FS","ব. বো. ১৯"],"q":"ব্লুটুথ এর IEEE স্ট্যান্ডার্ড কত?","opt":["ক) 802.15","খ) 802.11","গ) 802.16","ঘ) 802.3"],"ans":"ক) 802.15","logic":"পার্সোনাল এরিয়া নেটওয়ার্ক (PAN) বা ব্লুটুথের স্ট্যান্ডার্ড হলো IEEE 802.15 (মূলত 802.15.1)।","trick":"ব্লুটুথ পনেরো (15) কদম দূরে গেলে কাজ করে না!"},{"category":"tab-2","id":"q29","tags":["FS","চ. বো. ১৯"],"q":"Wi-Fi এর পূর্ণরূপ কী?","opt":["ক) Wireless Fidelity","খ) Wired Fidelity","গ) Wireless Fiber","ঘ) Wireless Finder"],"ans":"ক) Wireless Fidelity","logic":"ওয়াই-ফাই লোকাল এরিয়া নেটওয়ার্ক (LAN) তৈরি করতে রেডিও ওয়েভ ব্যবহার করে।","trick":"Fi মানে Fidelity (বিশ্বস্ততা)।"},{"category":"tab-2","id":"q30","tags":["LM","FS","FM"],"q":"Wi-Fi এর IEEE স্ট্যান্ডার্ড কত?","opt":["ক) 802.11","খ) 802.15","গ) 802.16","ঘ) 802.20"],"ans":"ক) 802.11","logic":"ওয়্যারলেস ল্যান বা ওয়াই-ফাই এর বিশ্বব্যাপী স্বীকৃত স্ট্যান্ডার্ড হলো 802.11।","trick":"ওয়াই-ফাই এর দুটি 'I' দেখতে '11' এর মতো!"},{"category":"tab-2","id":"q31","tags":["FS","ম. বো. ২৪"],"q":"WiMAX এর পূর্ণরূপ কী?","opt":["ক) Worldwide Interoperability for Microwave Access","খ) Wireless Interoperability for Microwave Access","গ) Worldwide Internet for Microwave Access","ঘ) Wireless Internet for Microwave Access"],"ans":"ক) Worldwide Interoperability for Microwave Access","logic":"এটি ওয়াই-ফাই এর উন্নত সংস্করণ, যা মেট্রোপলিটন এরিয়া নেটওয়ার্ক (MAN) কভার করে।","trick":"Worldwide (W) দিয়ে শুরু হয়।"},{"category":"tab-2","id":"q32","tags":["FS","ঢা. বো. ২৩"],"q":"WiMAX এর IEEE স্ট্যান্ডার্ড কত?","opt":["ক) 802.16","খ) 802.11","গ) 802.15","ঘ) 802.3"],"ans":"ক) 802.16","logic":"এটি দীর্ঘ দূরত্বের ওয়্যারলেস ইন্টারনেট প্রোভাইড করতে ব্যবহৃত হয়।","trick":"ওয়াই-ফাই ১১ হলে ওয়াইম্যাক্স ১৬।"},{"category":"tab-2","id":"q33","tags":["LM"],"q":"মোবাইল ফোনে প্রথম কোন প্রজন্মে ইন্টারনেট বা ডেটা সার্ভিস চালু হয়?","opt":["ক) ২য় প্রজন্ম (2G)","খ) ১ম প্রজন্ম (1G)","গ) ৩য় প্রজন্ম (3G)","ঘ) ৪র্থ প্রজন্ম (4G)"],"ans":"ক) ২য় প্রজন্ম (2G)","logic":"2G বা দ্বিতীয় প্রজন্মে প্রথম ডিজিটাল সিগন্যাল এবং SMS/ডেটা (GPRS) চালু হয়।","trick":"1G শুধু কথার জন্য, 2G তে মেসেজ/ডেটা।"},{"category":"tab-2","id":"q34","tags":["FS","ব. বো. ১৯"],"q":"ভিডিও কলিং কোন প্রজন্মের মোবাইল প্রযুক্তির প্রধান বৈশিষ্ট্য?","opt":["ক) ৩য় প্রজন্ম (3G)","খ) ২য় প্রজন্ম (2G)","গ) ৪র্থ প্রজন্ম (4G)","ঘ) ১ম প্রজন্ম (1G)"],"ans":"ক) ৩য় প্রজন্ম (3G)","logic":"3G প্রযুক্তিতে ডেটা স্পিড বাড়ায় প্রথমবারের মতো রিয়েল টাইম ভিডিও কলিং সম্ভব হয়।","trick":"3G মানেই থ্রি-ডি ফেস বা ভিডিও কল।"},{"category":"tab-2","id":"q35","tags":["FM","রা. বো. ২৩"],"q":"GSM এর পূর্ণরূপ কী?","opt":["ক) Global System for Mobile Communications","খ) General System for Mobile","গ) Global Standard for Mobile","ঘ) General Standard for Mobile"],"ans":"ক) Global System for Mobile Communications","logic":"এটি বিশ্বের সবচেয়ে জনপ্রিয় ২য় প্রজন্মের (2G) মোবাইল স্ট্যান্ডার্ড।","trick":"Global মানে বিশ্বব্যাপী।"},{"category":"tab-2","id":"q36","tags":["LM","FS"],"q":"SIM এর পূর্ণরূপ কী?","opt":["ক) Subscriber Identity Module","খ) System Identity Module","গ) Subscriber Internet Module","ঘ) Server Identity Module"],"ans":"ক) Subscriber Identity Module","logic":"সিম কার্ড গ্রাহকের পরিচিতি ও নেটওয়ার্ক অ্যাক্সেস ডেটা সংরক্ষণ করে।","trick":"গ্রাহকের পরিচয় = Subscriber Identity।"},{"category":"tab-2","id":"q37","tags":["FS","ঢা. বো. ২৩"],"q":"CDMA প্রযুক্তির সুবিধা কী?","opt":["ক) ডেটা সিকিউরিটি বেশি","খ) রোমিং সুবিধা বেশি","গ) হ্যান্ডসেট সস্তা","ঘ) স্পিড কম"],"ans":"ক) ডেটা সিকিউরিটি বেশি","logic":"কোড ডিভিশন মাল্টিপল অ্যাক্সেস (CDMA) এ স্প্রেড স্পেকট্রাম প্রযুক্তি থাকায় সিগন্যাল হ্যাক করা কঠিন।","trick":"কোড (Code) মানেই সিকিউরিটি।"},{"category":"tab-2","id":"q38","tags":["FS","দি. বো. ১৯"],"q":"মোবাইল কমিউনিকেশনে সেলের (Cell) আকার কেমন হয়?","opt":["ক) ষড়ভুজাকার (Hexagonal)","খ) গোলাকার","গ) চতুর্ভুজাকার","ঘ) ত্রিভুজাকার"],"ans":"ক) ষড়ভুজাকার (Hexagonal)","logic":"হেক্সাগোনাল বা ষড়ভুজাকার আকৃতির কারণে নেটওয়ার্কে কোনো ফাঁকা স্থান বা ওভারল্যাপ থাকে না।","trick":"মৌচাকের মতো ষড়ভুজাকার।"},{"category":"tab-2","id":"q39","tags":["LM"],"q":"GPS এর সাহায্যে কী নির্ণয় করা হয়?","opt":["ক) ভৌগোলিক অবস্থান","খ) ইন্টারনেটের গতি","গ) মোবাইলের ব্যালেন্স","ঘ) নেটওয়ার্কের নাম"],"ans":"ক) ভৌগোলিক অবস্থান","logic":"Global Positioning System (GPS) স্যাটেলাইটের মাধ্যমে নিখুঁত লোকেশন বের করে।","trick":"ম্যাপ বা পজিশন মানেই জিপিএস।"},{"category":"tab-2","id":"q40","tags":["FS","FM","ম. বো. ২৪"],"q":"4G প্রযুক্তিতে ডেটা ডাউনলোডের তাত্ত্বিক গতি কত?","opt":["ক) 100 Mbps থেকে 1 Gbps","খ) 2 Mbps","গ) 384 Kbps","ঘ) 10 Gbps"],"ans":"ক) 100 Mbps থেকে 1 Gbps","logic":"4G বা LTE/WiMAX 2 প্রযুক্তিতে চলন্ত অবস্থায় 100 Mbps এবং স্থির অবস্থায় 1 Gbps স্পিড পাওয়া যায়।","trick":"4G মানেই মেগাবিট পার করে গিগাবিটের ছোঁয়া।"},{"category":"tab-2","id":"q41","tags":["FS","রা. বো. ২৩"],"q":"রোমিং (Roaming) সুবিধা প্রথম কোন প্রজন্মে চালু হয়?","opt":["ক) ২য় প্রজন্ম (2G)","খ) ১ম প্রজন্ম (1G)","গ) ৩য় প্রজন্ম (3G)","ঘ) ৪র্থ প্রজন্ম (4G)"],"ans":"ক) ২য় প্রজন্ম (2G)","logic":"GSM স্ট্যান্ডার্ড আসার পর আন্তর্জাতিক রোমিং সুবিধা ২য় প্রজন্মে ব্যাপকভাবে চালু হয়।","trick":"1G তে রোমিং ছিল না, 2G তেই শুরু।"},{"category":"tab-2","id":"q42","tags":["LM","FS"],"q":"FDMA, TDMA এবং CDMA কীসের উদাহরণ?","opt":["ক) মাল্টিপল অ্যাক্সেস পদ্ধতি","খ) মডুলেশন পদ্ধতি","গ) ট্রান্সমিশন মোড","ঘ) ব্যান্ডউইথ"],"ans":"ক) মাল্টিপল অ্যাক্সেস পদ্ধতি","logic":"এগুলো একই চ্যানেল ব্যবহার করে একাধিক ইউজারকে নেটওয়ার্কে যুক্ত করার পদ্ধতি।","trick":"নামের শেষেই MA (Multiple Access) আছে।"},{"category":"tab-2","id":"q43","tags":["FS","রা. বো. ২৩"],"q":"FDDI কী ধরনের ক্যাবল ব্যবহার করে?","opt":["ক) অপটিক্যাল ফাইবার","খ) কো-এক্সিয়াল","গ) ইউটিপি","ঘ) মাইক্রোওয়েভ"],"ans":"ক) অপটিক্যাল ফাইবার","logic":"Fiber Distributed Data Interface (FDDI) লোকাল এরিয়া নেটওয়ার্কে ফাইবার ক্যাবল ব্যবহার করে।","trick":"নামের শুরুতেই Fiber (F) আছে।"},{"category":"tab-2","id":"q44","tags":["FS","ঢা. বো. ২৩"],"q":"হ্যান্ডঅফ (Handoff) প্রক্রিয়াটি কোথায় ব্যবহৃত হয়?","opt":["ক) সেলুলার নেটওয়ার্কে","খ) লোকাল নেটওয়ার্কে","গ) টিভি ব্রডকাস্টে","ঘ) ব্লুটুথে"],"ans":"ক) সেলুলার নেটওয়ার্কে","logic":"মোবাইল নিয়ে এক টাওয়ার থেকে অন্য টাওয়ারের রেঞ্জে গেলে কল না কেটে কানেকশন ট্রান্সফার করাকে হ্যান্ডঅফ বলে।","trick":"এক টাওয়ার থেকে অন্য টাওয়ারে 'হস্তান্তর' করা।"},{"category":"tab-2","id":"q45","tags":["LM","FM"],"q":"কোন প্রজন্মের মোবাইল ফোনে অ্যানালগ সিগন্যাল ব্যবহৃত হতো?","opt":["ক) ১ম প্রজন্ম (1G)","খ) ২য় প্রজন্ম (2G)","গ) ৩য় প্রজন্ম (3G)","ঘ) ৪র্থ প্রজন্ম (4G)"],"ans":"ক) ১ম প্রজন্ম (1G)","logic":"1G (যেমন AMPS) আদি প্রযুক্তি এবং এটি শুধুমাত্র অ্যানালগ রেডিও সিগন্যাল ব্যবহার করে ভয়েস কল করতে পারতো।","trick":"অ্যানালগ হলো সবচেয়ে পুরনো (1st)।"},{"category":"tab-3","id":"q46","tags":["FS","ম. বো. ২৪"],"q":"ভৌগোলিক বিস্তৃতির ওপর ভিত্তি করে কম্পিউটার নেটওয়ার্ক কত প্রকার?","opt":["ক) ৪ প্রকার","খ) ৩ প্রকার","গ) ২ প্রকার","ঘ) ৫ প্রকার"],"ans":"ক) ৪ প্রকার","logic":"PAN, LAN, MAN, এবং WAN - এই ৪টি প্রধান ভাগে নেটওয়ার্ককে ভাগ করা যায়।","trick":"চার দিকের মতো নেটওয়ার্কও চার প্রকার।"},{"category":"tab-3","id":"q47","tags":["FS","ম. বো. ২৪"],"q":"পার্সোনাল এরিয়া নেটওয়ার্ক (PAN) এর রেঞ্জ সাধারণত কত?","opt":["ক) ১০ মিটার","খ) ১ কিলোমিটার","গ) ১০ কিলোমিটার","ঘ) ১০০ কিলোমিটার"],"ans":"ক) ১০ মিটার","logic":"ব্লুটুথ বা ইনফ্রারেড দিয়ে তৈরি ব্যক্তিগত নেটওয়ার্ক সাধারণত ১০ মিটারের মধ্যে সীমাবদ্ধ থাকে।","trick":"পার্সোনাল বা ব্লুটুথ মানেই খুব কাছাকাছি (১০ মিটার)।"},{"category":"tab-3","id":"q48","tags":["LM","FS"],"q":"ল্যান (LAN) নেটওয়ার্কের বিস্তৃতি কতটুকু হতে পারে?","opt":["ক) ১-১০ কি.মি.","খ) ১০-১০০ কি.মি.","গ) ১০০-১০০০ কি.মি.","ঘ) পুরো দেশ"],"ans":"ক) ১-১০ কি.মি.","logic":"একটি স্কুল, কলেজ বা অফিসের বিল্ডিংয়ের মধ্যে তৈরি নেটওয়ার্ককে LAN বলে।","trick":"লোকাল মানেই নির্দিষ্ট ভবন বা ক্যাম্পাস।"},{"category":"tab-3","id":"q49","tags":["FS","দি. বো. ১৯"],"q":"একটি শহরের বিভিন্ন বিল্ডিংয়ের মধ্যে তৈরি নেটওয়ার্ককে কী বলে?","opt":["ক) MAN","খ) LAN","গ) WAN","ঘ) PAN"],"ans":"ক) MAN","logic":"Metropolitan Area Network (MAN) দিয়ে একটি পুরো শহর বা মেট্রোপলিটন এলাকা কভার করা হয়।","trick":"Metropolitan মানেই শহর।"},{"category":"tab-3","id":"q50","tags":["FS","FM","রা. বো. ২৩"],"q":"বিশ্বজুড়ে বিস্তৃত নেটওয়ার্ক কোনটি?","opt":["ক) WAN","খ) LAN","গ) MAN","ঘ) CAN"],"ans":"ক) WAN","logic":"Wide Area Network (WAN) হলো একাধিক দেশের মধ্যে বা বিশ্বব্যাপী বিস্তৃত নেটওয়ার্ক (যেমন ইন্টারনেট)।","trick":"Wide মানেই বিশ্বব্যাপী বা বিশাল।"},{"category":"tab-3","id":"q51","tags":["LM"],"q":"বাস টপোলজিতে মূল তারটিকে কী বলা হয়?","opt":["ক) ব্যাকবোন","খ) সার্ভার","গ) হাব","ঘ) সুইচ"],"ans":"ক) ব্যাকবোন","logic":"বাস টপোলজিতে একটি প্রধান তার বা ব্যাকবোন ক্যাবলের সাথে সব কম্পিউটার যুক্ত থাকে।","trick":"মূল তারটি মেরুদণ্ড বা ব্যাকবোনের মতো কাজ করে।"},{"category":"tab-3","id":"q52","tags":["FS","চ. বো. ১৯"],"q":"কোন টপোলজিতে একটি কেন্দ্রীয় ডিভাইস (হাব/সুইচ) থাকে?","opt":["ক) স্টার টপোলজি","খ) রিং টপোলজি","গ) বাস টপোলজি","ঘ) মেশ টপোলজি"],"ans":"ক) স্টার টপোলজি","logic":"স্টার টপোলজিতে সব নোড সরাসরি একটি কেন্দ্রীয় হাব বা সুইচের সাথে যুক্ত থাকে।","trick":"কেন্দ্রীয় হাব মানেই তারার (Star) মতো।"},{"category":"tab-3","id":"q53","tags":["FS","ঢা. বো. ২৩"],"q":"রিং টপোলজিতে ডেটা চলাচলের দিক কেমন?","opt":["ক) একমুখী","খ) বহুমুখী","গ) দ্বিমুখী","ঘ) র‍্যান্ডম"],"ans":"ক) একমুখী","logic":"রিং টপোলজিতে প্রতিটি কম্পিউটার তার পাশের দুটির সাথে যুক্ত থাকে এবং ডেটা বৃত্তাকারে একমুখী ঘোরে।","trick":"আংটি বা রিংয়ে ঘুরপাক খায় এক দিকে।"},{"category":"tab-3","id":"q54","tags":["LM","FS"],"q":"কোন টপোলজিতে প্রতিটি কম্পিউটার অপর সব কম্পিউটারের সাথে সরাসরি যুক্ত থাকে?","opt":["ক) মেশ টপোলজি","খ) বাস টপোলজি","গ) স্টার টপোলজি","ঘ) ট্রি টপোলজি"],"ans":"ক) মেশ টপোলজি","logic":"মেশ (Mesh) টপোলজিতে ডেটা আদান-প্রদানের সর্বোচ্চ গ্যারান্টি থাকে কারণ প্রতিটি নোড সবার সাথে কানেক্টেড।","trick":"জালের (Mesh) মতো সবাই সবার সাথে যুক্ত।"},{"category":"tab-3","id":"q55","tags":["FM","দি. বো. ১৯"],"q":"ট্রি টপোলজিতে কম্পিউটারগুলো কীভাবে যুক্ত থাকে?","opt":["ক) শাখা-প্রশাখার মতো","খ) বৃত্তাকারে","গ) রৈখিকভাবে","ঘ) তারার মতো"],"ans":"ক) শাখা-প্রশাখার মতো","logic":"এটি মূলত স্টার টপোলজির সম্প্রসারিত রূপ, যা গাছের ডালপালার মতো ধাপে ধাপে বাড়ে।","trick":"গাছের (Tree) যেমন ডালপালা থাকে।"},{"category":"tab-3","id":"q56","tags":["FS","দি. বো. ১৯"],"q":"হাফ (Hub) এর তুলনায় সুইচ (Switch) কেন ভালো?","opt":["ক) এটি প্রাপক চিনে ডেটা পাঠায়","খ) এটির দাম কম","গ) এটি বিদ্যুৎ কম টানে","ঘ) এটি তারহীন"],"ans":"ক) এটি প্রাপক চিনে ডেটা পাঠায়","logic":"হাব ব্রডকাস্ট করে সবাইকে ডেটা দেয়, কিন্তু সুইচ MAC অ্যাড্রেস ব্যবহার করে শুধু নির্দিষ্ট প্রাপককে ডেটা পাঠায়।","trick":"সুইচ বুদ্ধিমান, হাব বোকা।"},{"category":"tab-3","id":"q57","tags":["LM"],"q":"রাউটার কোন স্তরে কাজ করে?","opt":["ক) নেটওয়ার্ক লেয়ার","খ) ফিজিক্যাল লেয়ার","গ) ডেটা লিংক লেয়ার","ঘ) অ্যাপ্লিকেশন লেয়ার"],"ans":"ক) নেটওয়ার্ক লেয়ার","logic":"রাউটার IP অ্যাড্রেস ব্যবহার করে ভিন্ন ভিন্ন নেটওয়ার্কের মধ্যে ডেটা প্যাকেট আদান-প্রদানের সেরা পথ (Route) বের করে।","trick":"রুট বা পথ বের করা মানেই নেটওয়ার্ক লেয়ারের কাজ।"},{"category":"tab-3","id":"q58","tags":["FS","কু. বো. ২৩"],"q":"মডেম (Modem) এর প্রধান কাজ কী?","opt":["ক) মডুলেশন ও ডিমডুলেশন","খ) ডেটা স্টোর করা","গ) ভাইরাস স্ক্যান করা","ঘ) বিদ্যুৎ প্রবাহ নিয়ন্ত্রণ"],"ans":"ক) মডুলেশন ও ডিমডুলেশন","logic":"এটি ডিজিটাল সিগন্যালকে অ্যানালগ (মডুলেশন) এবং অ্যানালগকে ডিজিটালে (ডিমডুলেশন) রূপান্তর করে।","trick":"Mo = Modulation, Dem = Demodulation।"},{"category":"tab-3","id":"q59","tags":["FS","রা. বো. ২৩"],"q":"ক্লাউড কম্পিউটিংয়ের প্রধান বৈশিষ্ট্য কোনটি?","opt":["ক) পে অ্যাজ ইউ গো (Pay as you go)","খ) সফটওয়্যার কেনা বাধ্যতামূলক","গ) নিজস্ব সার্ভার লাগে","ঘ) ইন্টারনেট প্রয়োজন নেই"],"ans":"ক) পে অ্যাজ ইউ গো (Pay as you go)","logic":"ক্লাউডে আপনি ঠিক যতটুকু স্টোরেজ বা সেবা ব্যবহার করবেন, ততটুকুই বিল দেবেন।","trick":"ভাড়া করা সার্ভার, তাই পে অ্যাজ ইউ গো।"},{"category":"tab-3","id":"q60","tags":["LM","FS","FM"],"q":"IaaS এর পূর্ণরূপ কী?","opt":["ক) Infrastructure as a Service","খ) Internet as a Service","গ) Information as a Service","ঘ) Intranet as a Service"],"ans":"ক) Infrastructure as a Service","logic":"ক্লাউডে স্টোরেজ, ভার্চুয়াল মেশিন বা নেটওয়ার্কিং হার্ডওয়্যার ভাড়ায় নেওয়াকে IaaS বলে।","trick":"I মানে ইনফ্রাস্ট্রাকচার বা অবকাঠামো।"},{"category":"tab-3","id":"q61","tags":["FS","ম. বো. ২৪"],"q":"গুগল ড্রাইভ (Google Drive) ক্লাউড কম্পিউটিংয়ের কোন সার্ভিসের উদাহরণ?","opt":["ক) SaaS","খ) PaaS","গ) IaaS","ঘ) DaaS"],"ans":"ক) SaaS","logic":"Software as a Service (SaaS) এ তৈরি সফটওয়্যার সরাসরি ইন্টারনেটের মাধ্যমে ব্যবহার করা যায়।","trick":"ড্রাইভ হলো রেডিমেড সফটওয়্যার (SaaS)।"},{"category":"tab-3","id":"q62","tags":["FS","রা. বো. ২৩"],"q":"ব্রিজ (Bridge) ডিভাইসের কাজ কী?","opt":["ক) একাধিক ল্যানকে যুক্ত করা","খ) ইন্টারনেট সংযোগ দেওয়া","গ) আইপি অ্যাড্রেস পড়া","ঘ) সিগন্যাল অ্যামপ্লিফাই করা"],"ans":"ক) একাধিক ল্যানকে যুক্ত করা","logic":"একই প্রোটোকল ব্যবহার করা একাধিক ছোট ল্যানকে যুক্ত করে একটি বড় ল্যান তৈরি করে ব্রিজ।","trick":"সেতুর (Bridge) কাজই হলো দুটি পাড়কে যুক্ত করা।"},{"category":"tab-3","id":"q63","tags":["LM"],"q":"নিচের কোনটি ক্লাউড কম্পিউটিং মডেল নয়?","opt":["ক) পাবলিক ক্লাউড","খ) প্রাইভেট ক্লাউড","গ) হাইব্রিড ক্লাউড","ঘ) লোকাল ক্লাউড"],"ans":"ঘ) লোকাল ক্লাউড","logic":"ক্লাউড ডেপ্লয়মেন্ট মডেল ৩টি: পাবলিক, প্রাইভেট এবং হাইব্রিড। লোকাল ক্লাউড বলে কিছু নেই।","trick":"ক্লাউড মানেই দূরের সার্ভার, লোকাল নয়।"},{"category":"tab-3","id":"q64","tags":["FS","ঢা. বো. ২৩"],"q":"হাব বা সুইচ দিয়ে তৈরি নেটওয়ার্ক যদি অকেজো হয়ে যায়, তবে বুঝতে হবে-","opt":["ক) কেন্দ্রীয় ডিভাইসটি নষ্ট","খ) সবগুলো পিসি নষ্ট","গ) ইন্টারনেট নেই","ঘ) ফায়ারওয়াল অন"],"ans":"ক) কেন্দ্রীয় ডিভাইসটি নষ্ট","logic":"স্টার টপোলজিতে হাব/সুইচ নষ্ট হলে পুরো নেটওয়ার্ক সাথে সাথে ডাউন হয়ে যায়।","trick":"কেন্দ্রীয় নেতা (হাব) মারা গেলে দল (নেটওয়ার্ক) অকেজো!"},{"category":"tab-3","id":"q65","tags":["FM","রা. বো. ২৩"],"q":"রিপিটার (Repeater) এর কাজ কী?","opt":["ক) সিগন্যালকে শক্তিশালী করা","খ) সিগন্যাল ধ্বংস করা","গ) আইপি অ্যাড্রেস তৈরি করা","ঘ) মডুলেশন করা"],"ans":"ক) সিগন্যালকে শক্তিশালী করা","logic":"দীর্ঘপথে ডেটা সিগন্যাল দুর্বল হয়ে গেলে রিপিটার তা গ্রহণ করে আবার শক্তিশালী করে সামনের দিকে পাঠায়।","trick":"রিপিট বা পুনরায় শক্তিশালী করা।"},{"category":"tab-3","id":"q66","tags":["FS","মডেল টেস্ট"],"q":"নিচের চিত্রটি কোন টপোলজি নির্দেশ করে?<br><br><svg width='120' height='120' viewBox='0 0 100 100' stroke='currentColor' fill='none' style='margin-bottom:10px; color:var(--text-primary);'><circle cx='50' cy='50' r='10' stroke-width='2'/><rect x='10' y='10' width='15' height='10' stroke-width='2'/><rect x='75' y='10' width='15' height='10' stroke-width='2'/><rect x='10' y='80' width='15' height='10' stroke-width='2'/><rect x='75' y='80' width='15' height='10' stroke-width='2'/><line x1='50' y1='40' x2='17' y2='20' stroke-width='2'/><line x1='50' y1='40' x2='82' y2='20' stroke-width='2'/><line x1='50' y1='60' x2='17' y2='80' stroke-width='2'/><line x1='50' y1='60' x2='82' y2='80' stroke-width='2'/></svg>","opt":["ক) বাস টপোলজি","খ) স্টার টপোলজি","গ) মেশ টপোলজি","ঘ) রিং টপোলজি"],"ans":"খ) স্টার টপোলজি","logic":"চিত্রে দেখা যাচ্ছে একটি কেন্দ্রীয় ডিভাইস (হাব বা সুইচ) এর সাথে অন্যান্য সবগুলো নোড সরাসরি যুক্ত আছে, যা স্টার টপোলজির বৈশিষ্ট্য।","trick":"মাঝখানে একটি ডিভাইস থাকলে তা তারার বা স্টারের (Star) মতো দেখায়।"},{"category":"tab-3","id":"q67","tags":["FS","সাজেশন"],"q":"নিচের চিত্রটি কোন টপোলজির সাথে সাদৃশ্যপূর্ণ?<br><br><svg width='160' height='80' viewBox='0 0 160 80' stroke='currentColor' fill='none' style='margin-bottom:10px; color:var(--text-primary);'><line x1='10' y1='40' x2='150' y2='40' stroke-width='3'/><rect x='20' y='10' width='20' height='15' stroke-width='2'/><rect x='70' y='10' width='20' height='15' stroke-width='2'/><rect x='120' y='10' width='20' height='15' stroke-width='2'/><rect x='45' y='55' width='20' height='15' stroke-width='2'/><rect x='95' y='55' width='20' height='15' stroke-width='2'/><line x1='30' y1='25' x2='30' y2='40' stroke-width='2'/><line x1='80' y1='25' x2='80' y2='40' stroke-width='2'/><line x1='130' y1='25' x2='130' y2='40' stroke-width='2'/><line x1='55' y1='40' x2='55' y2='55' stroke-width='2'/><line x1='105' y1='40' x2='105' y2='55' stroke-width='2'/></svg>","opt":["ক) রিং টপোলজি","খ) মেশ টপোলজি","গ) বাস টপোলজি","ঘ) ট্রি টপোলজি"],"ans":"গ) বাস টপোলজি","logic":"চিত্রে একটি প্রধান ক্যাবল বা ব্যাকবোনের (Backbone) সাথে প্রতিটি কম্পিউটার যুক্ত করা হয়েছে, যা বাস টপোলজির মূল কাঠামো।","trick":"একটি সোজা তারে (বাসের রাস্তার মতো) সবাই যুক্ত থাকলে বাস টপোলজি।"},{"category":"tab-3","id":"q68","tags":["LM","মডেল টেস্ট"],"q":"নিচের চিত্রে অপটিক্যাল ফাইবারের সবচেয়ে ভেতরের যে অংশটি চিহ্নিত করা হয়েছে, তার নাম কী?<br><br><svg width='120' height='120' viewBox='0 0 100 100' stroke='currentColor' fill='none' style='margin-bottom:10px; color:var(--text-primary);'><circle cx='50' cy='50' r='40' stroke-width='2'/><circle cx='50' cy='50' r='25' stroke-width='2'/><circle cx='50' cy='50' r='10' fill='currentColor'/><line x1='10' y1='10' x2='45' y2='45' stroke-width='1.5' marker-start='url(#arrow)'/><text x='5' y='10' font-size='8' stroke='none' fill='currentColor'>চিহ্নিত অংশ</text></svg>","opt":["ক) ক্ল্যাডিং","খ) কোর","গ) জ্যাকেট","ঘ) কপার ওয়্যার"],"ans":"খ) কোর","logic":"অপটিক্যাল ফাইবারের একেবারে ভেতরের অংশকে কোর (Core) বলা হয়, যার মধ্যে দিয়ে আলোক সিগন্যাল পূর্ণ অভ্যন্তরীণ প্রতিফলনের মাধ্যমে প্রবাহিত হয়।","trick":"যেকোনো কিছুর কেন্দ্রবিন্দুকে কোর বলা হয়।"}];
+
+        // ==========================================
+        // ⚙️ ZERO-LAG CORE LOGIC
+        // ==========================================
+
+        document.getElementById('pageTitle').textContent = CONFIG.title;
+        document.getElementById('pageSubtitle').textContent = CONFIG.subtitle;
+        document.getElementById('totalCount').textContent = dataset.length;
+
+        let trackingList = JSON.parse(localStorage.getItem(CONFIG.storageKey)) || [];
+
+        // 1. Setup Tabs
+        const tabContainer = document.getElementById('tabContainer');
+        CONFIG.tabs.forEach((tab, index) => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+            btn.textContent = tab.label;
+            btn.onclick = (e) => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderMCQs(tab.id); // Triggers lag-free render
+            };
+            tabContainer.appendChild(btn);
+        });
+
+        // 2. Optimized Rendering (Zero Lag for 300+ items)
+        function renderMCQs(tabId) {
+            const container = document.getElementById('mcqContainer');
+            container.innerHTML = ''; // Clear current view
+            
+            // DocumentFragment prevents multiple reflows/lags
+            const fragment = document.createDocumentFragment();
+            const filteredData = dataset.filter(q => q.category === tabId);
+            
+            filteredData.forEach((item, index) => {
+                const isChecked = trackingList.includes(item.id);
+                const card = document.createElement('div');
+                card.className = 'mcq-card ' + (isChecked ? 'completed' : '');
+                
+                let tagsHtml = item.tags ? item.tags.map(t => `<span class="tag">${t}</span>`).join('') : '';
+                let optsHtml = item.opt.map(o => `<div class="opt-item">${o}</div>`).join('');
+                
+                let logicHtml = item.logic ? `<div style="margin-bottom:8px;"><span class="expl-title logic-text">লজিক:</span>${item.logic}</div>` : '';
+                let trickHtml = item.trick ? `<div><span class="expl-title trick-text">ট্রিক:</span>${item.trick}</div>` : '';
+
+                card.innerHTML = `
+                    <div class="card-top">
+                        <span class="q-badge">Q-${item.id.replace('q','').replace('_er','').replace('_1','')}</span>
+                        <div>${tagsHtml}</div>
+                    </div>
+                    <div class="question">${item.q}</div>
+                    <div class="options-group">${optsHtml}</div>
+                    <div class="ans-reveal">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span>${item.ans}</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-secondary" onclick="toggleAnalysis(this)">বিস্তারিত</button>
+                        <button class="btn btn-primary" onclick="toggleRead('${item.id}', this, this.closest('.mcq-card'))">
+                            ${isChecked ? 'সম্পন্ন' : 'পড়া শেষ'}
+                        </button>
+                        <div class="explanation">${logicHtml}${trickHtml}</div>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            });
+            
+            container.appendChild(fragment); // Render everything instantly
+            updateProgress();
+        }
+
+        // Action Handlers
+        window.toggleAnalysis = function(btn) {
+            const pnl = btn.parentElement.querySelector('.explanation');
+            pnl.classList.toggle('show');
+            btn.textContent = pnl.classList.contains('show') ? 'লুকান' : 'বিস্তারিত';
+        };
+
+        window.toggleRead = function(id, btnElement, cardElement) {
+            if (!trackingList.includes(id)) {
+                trackingList.push(id);
+                cardElement.classList.add('completed');
+                btnElement.textContent = 'সম্পন্ন';
+            } else {
+                trackingList = trackingList.filter(item => item !== id);
+                cardElement.classList.remove('completed');
+                btnElement.textContent = 'পড়া শেষ';
+            }
+            localStorage.setItem(CONFIG.storageKey, JSON.stringify(trackingList));
+            updateProgress();
+        };
+
+        function updateProgress() {
+            const percent = dataset.length === 0 ? 0 : (trackingList.length / dataset.length) * 100;
+            document.getElementById('barFill').style.width = percent + '%';
+            document.getElementById('readCount').textContent = trackingList.length;
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('পড়ার রেকর্ড মুছতে চান?')) {
+                localStorage.removeItem(CONFIG.storageKey);
+                trackingList = [];
+                const activeTab = document.querySelector('.tab-btn.active');
+                renderMCQs(CONFIG.tabs.find(t => t.label === activeTab.textContent).id);
+            }
+        });
+
+        // Theme Toggle with Premium SVGs
+        const themeBtn = document.getElementById('themeBtn');
+        const rootHtml = document.documentElement;
+        const savedTheme = localStorage.getItem('ict_theme_mutu') || 'light';
+        
+        const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+        const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+
+        const applyTheme = (theme) => {
+            rootHtml.setAttribute('data-theme', theme);
+            themeBtn.innerHTML = theme === 'light' ? moonIcon : sunIcon;
+            localStorage.setItem('ict_theme_mutu', theme);
+        };
+        applyTheme(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const newTheme = rootHtml.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+
+        // Initialize First Tab
+        if(CONFIG.tabs.length > 0) renderMCQs(CONFIG.tabs[0].id);
+
+    </script>
+</body>
+</html>

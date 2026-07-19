@@ -1,0 +1,6 @@
+{
+  "name": "ICT MUTU Study Tracker",
+  "description": "MCQ Study Tracker Applications for ICT Chapters 1 to 6.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
